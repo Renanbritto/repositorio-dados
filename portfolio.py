@@ -1,0 +1,2209 @@
+import streamlit as st
+
+# ─────────────────────────────────────────────
+# CONFIGURAÇÃO DA PÁGINA
+# ─────────────────────────────────────────────
+st.set_page_config(
+    page_title="Renan Britto · Portfólio de Dados",
+    page_icon="",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
+
+# ─────────────────────────────────────────────
+# DADOS FIXOS
+# ─────────────────────────────────────────────
+PROFILE = {
+    "name": "Renan Britto",
+    "linkedin": "https://linkedin.com/in/renan-britto-7b3728212/",
+    "github": "https://github.com/Renanbritto",
+    "email": "mailto:renanbritto.py@gmail.com",
+}
+
+LANG_OPTIONS = {
+    "pt": {"flag": "🇧🇷", "label": "Português (BR)"},
+    "en": {"flag": "🇺🇸", "label": "English"},
+}
+
+NAV_ITEMS = {
+    "home": {"pt": "🏠  Home", "en": "🏠  Home"},
+    "about": {"pt": "👤  Sobre mim", "en": "👤  About Me"},
+    "skills": {"pt": "⚙️  Skills", "en": "⚙️  Skills"},
+    "projects": {"pt": "📁  Projetos", "en": "📁  Projects"},
+    "method": {"pt": "🔍  Meu método", "en": "🔍  My Method"},
+    "experience": {"pt": "💼  Experiência", "en": "💼  Experience"},
+    "contact": {"pt": "✉️  Contato", "en": "✉️  Contact"},
+}
+
+CONTENT = {
+    "pt": {
+        "location": "Brasil",
+        "headline": "Dados, Automação & BI",
+        "hero_title": "Construindo soluções com dados, automação e visão de negócio.",
+        "hero_summary": (
+            "Sou estudante de Ciência da Computação e estudo dados há bastante tempo, "
+            "desenvolvendo base em análise, visualização, automação e resolução de problemas "
+            "orientados por dados. Ao longo da minha trajetória, já utilizei dados em diferentes "
+            "contextos profissionais, mesmo antes de atuar formalmente em uma função exclusiva da área. "
+            "Desde fevereiro de 2026, atuo em um cargo dedicado a dados como Estagiário em Automação "
+            "e Business Intelligence, unindo aprendizado contínuo, prática técnica e foco em gerar valor."
+        ),
+        "hero_panel": {
+            "label": "Camada de foco",
+            "value": "Data + Automation",
+            "text": "Soluções com visão de negócio, leitura analítica e construção prática.",
+            "cards": [
+                ("Python", "automation"),
+                ("SQL", "querying"),
+                ("BI", "dashboards"),
+                ("Data", "analytics"),
+            ],
+        },
+        "stack_items": [
+            "Python",
+            "SQL",
+            "Power BI",
+            "Streamlit",
+            "Pandas",
+            "Automação",
+            "Analytics",
+            "Business Intelligence",
+        ],
+        "metrics": [
+            ("Fev/2026", "Atuação profissional dedicada em dados"),
+            ("Python + SQL", "Base técnica principal"),
+            ("BI + Automação", "Foco atual"),
+            ("Acadêmico + Profissional", "Experiência aplicada"),
+        ],
+        "sidebar_note": "Aberto para oportunidades em dados, automação e BI.",
+        "buttons": {
+            "linkedin": "LinkedIn",
+            "github": "GitHub",
+            "email": "Enviar e-mail",
+            "project": "Ver projeto →",
+            "contact": "Enviar mensagem",
+        },
+        "about": {
+            "eyebrow": "Perfil",
+            "title": "Sobre mim",
+            "subtitle": "Estudante de Ciência da Computação com trajetória prática em dados, automação, análise e BI.",
+            "paragraphs": [
+                (
+                    "Sou estudante de Ciência da Computação com foco em Dados, Analytics, Automação e Business Intelligence. "
+                    "Minha trajetória com dados começou antes de ocupar formalmente uma função dedicada à área, por meio de estudos, "
+                    "projetos e aplicações práticas em empresas pelas quais passei."
+                ),
+                (
+                    "Mesmo em experiências anteriores que não tinham o título oficialmente voltado a dados, já atuava com análise de informações, "
+                    "estruturação de controles, relatórios, apoio à tomada de decisão e melhoria de processos com base em dados."
+                ),
+                (
+                    "Desde fevereiro de 2026, passei a atuar diretamente em um cargo dedicado à área como Estagiário em Automação e Business Intelligence. "
+                    "Hoje, meu foco está em transformar dados em informação útil, automatizar rotinas e construir soluções analíticas que apoiem o negócio de forma prática."
+                ),
+            ],
+            "areas": [
+                {
+                    "icon": "🎓",
+                    "title": "Base em Ciência da Computação",
+                    "desc": "Formação que fortalece lógica, programação, estruturação de problemas e visão técnica.",
+                },
+                {
+                    "icon": "📊",
+                    "title": "Business Intelligence",
+                    "desc": "Construção de dashboards, indicadores e relatórios para acompanhamento de resultados.",
+                },
+                {
+                    "icon": "🔄",
+                    "title": "Automação",
+                    "desc": "Uso de Python, SQL e ferramentas analíticas para reduzir esforço manual e ganhar eficiência.",
+                },
+                {
+                    "icon": "📈",
+                    "title": "Evolução em Dados",
+                    "desc": "Trajetória construída com estudo contínuo, prática aplicada e aprofundamento técnico constante.",
+                },
+            ],
+        },
+        "skills": {
+            "eyebrow": "Stack",
+            "title": "Skills e Ferramentas",
+            "subtitle": "Minhas habilidades organizadas em um fluxo visual vertical, conectando análise, visualização, estatística, dados e automação.",
+            "note": "Passe o mouse sobre os blocos para explorar melhor cada área.",
+            "groups": [
+                {
+                    "title": "Análise de Dados",
+                    "icon": "◔",
+                    "tools": [
+                        "Pandas",
+                        "NumPy",
+                        "EDA",
+                        "Data Cleaning",
+                        "Storytelling com Dados",
+                        "Análise Exploratória",
+                    ],
+                },
+                {
+                    "title": "BI e Visualização",
+                    "icon": "▣",
+                    "tools": [
+                        "Power BI",
+                        "DAX",
+                        "Modelagem de Dados",
+                        "Streamlit",
+                        "Matplotlib",
+                        "Seaborn",
+                        "Plotly",
+                    ],
+                },
+                {
+                    "title": "Ciência de Dados",
+                    "icon": "◎",
+                    "tools": [
+                        "Scikit-learn",
+                        "Classificação",
+                        "Regressão",
+                        "Clustering",
+                        "Feature Engineering",
+                        "Model Evaluation",
+                    ],
+                },
+                {
+                    "title": "Estatística Aplicada",
+                    "icon": "≈",
+                    "tools": [
+                        "Estatística Descritiva",
+                        "Correlação",
+                        "Distribuições",
+                        "Testes de Hipótese",
+                        "Métricas de Performance",
+                        "A/B Testing",
+                    ],
+                },
+                {
+                    "title": "Dados e Bancos",
+                    "icon": "▤",
+                    "tools": [
+                        "SQL Server",
+                        "MySQL",
+                        "PostgreSQL",
+                        "T-SQL",
+                        "ETL",
+                        "Data Quality",
+                        "Data Warehousing",
+                    ],
+                },
+                {
+                    "title": "Programação e Automação",
+                    "icon": "↻",
+                    "tools": [
+                        "Python",
+                        "Jupyter Notebook",
+                        "Git / GitHub",
+                        "APIs",
+                        "VBA",
+                        "Scripting",
+                    ],
+                },
+            ],
+        },
+        "projects": {
+            "eyebrow": "Projetos",
+            "title": "Projetos e estudos aplicados",
+            "subtitle": "Exemplos de aplicação prática em dashboards, automação, qualidade de dados e estudos analíticos.",
+            "problem": "Problema",
+            "insights": "Insights",
+            "impact": "Impacto",
+            "items": [
+                {
+                    "title": "Dashboard de Indicadores de Negócio",
+                    "emoji": "📊",
+                    "problem": "A área precisava acompanhar indicadores com mais clareza e menos dependência de controles manuais.",
+                    "insights": "A estruturação dos dados e dos KPIs tornou a análise mais rápida, padronizada e visualmente mais clara.",
+                    "impact": "A solução melhorou a leitura dos resultados e apoiou o acompanhamento mais consistente das métricas.",
+                    "tools": ["Power BI", "SQL", "DAX", "Excel"],
+                    "link": "#",
+                },
+                {
+                    "title": "Automação de Rotinas com Python",
+                    "emoji": "🔄",
+                    "problem": "Parte do trabalho operacional dependia de tarefas repetitivas, com tempo alto de execução manual.",
+                    "insights": "Ao mapear as etapas do processo, foi possível identificar pontos de padronização, validação e automação.",
+                    "impact": "A automação reduziu retrabalho, aumentou produtividade e melhorou a confiabilidade das entregas.",
+                    "tools": ["Python", "Pandas", "Excel", "Automação"],
+                    "link": "#",
+                },
+                {
+                    "title": "Estudo de Qualidade de Dados",
+                    "emoji": "🔍",
+                    "problem": "Bases com inconsistências e campos incompletos prejudicavam relatórios e interpretações posteriores.",
+                    "insights": "A análise evidenciou padrões de preenchimento incorreto, dados faltantes e registros com baixa confiabilidade.",
+                    "impact": "O estudo contribuiu para maior confiança nas informações e para a criação de critérios de validação.",
+                    "tools": ["Python", "Pandas", "SQL", "Data Quality"],
+                    "link": "#",
+                },
+                {
+                    "title": "Estudo Aplicado de Previsão",
+                    "emoji": "📈",
+                    "problem": "Em alguns contextos, antecipar comportamento de demanda ou tendência pode apoiar o planejamento.",
+                    "insights": "A análise temporal e o uso de modelos simples mostraram o potencial de previsões como apoio à tomada de decisão.",
+                    "impact": "O projeto reforçou minha base em Ciência de Dados e mostrou como modelos podem complementar a análise descritiva.",
+                    "tools": ["Python", "Scikit-learn", "Time Series", "Pandas"],
+                    "link": "#",
+                },
+            ],
+        },
+        "method": {
+            "eyebrow": "Método",
+            "title": "Meu método analítico",
+            "subtitle": "",
+            "note": "",
+            "principles_title": "Princípios que guiam meu trabalho",
+            "steps": [
+                ("🎯", "Problema", "Entender a necessidade, o contexto do negócio e o objetivo da análise."),
+                ("🗂️", "Dados", "Mapear fontes, estrutura, qualidade e disponibilidade das informações."),
+                ("🧪", "Hipóteses", "Definir perguntas, métricas e abordagem analítica para investigar o problema."),
+                ("🔧", "Tratamento", "Limpar, transformar e organizar os dados para análise ou modelagem."),
+                ("📊", "Análise", "Explorar padrões, testar hipóteses e construir visualizações ou modelos."),
+                ("✅", "Entrega", "Traduzir os resultados em insight, dashboard, automação ou recomendação prática."),
+            ],
+            "principles": [
+                ("Negócio antes da ferramenta", "A tecnologia deve servir ao problema real, não o contrário."),
+                ("Dados confiáveis primeiro", "Antes de analisar ou modelar, é preciso garantir consistência e entendimento da base."),
+                ("Clareza na comunicação", "Uma análise só gera valor quando pode ser entendida e utilizada por quem decide."),
+                ("Automatizar o que faz sentido", "Ganhos de produtividade aparecem quando tarefas recorrentes são bem estruturadas e automatizadas."),
+                ("Aprendizado contínuo", "Minha evolução em dados é construída com estudo, prática e aprofundamento constante."),
+                ("Solução aplicável", "O objetivo final é sempre gerar algo utilizável: insight, processo, painel ou melhoria prática."),
+            ],
+        },
+        "experience": {
+            "eyebrow": "Experiência",
+            "title": "Trajetória profissional",
+            "subtitle": "Uma evolução construída com estudo, prática aplicada e atuação direta em Automação e Business Intelligence.",
+            "items": [
+                {
+                    "role": "Estagiário em Automação e Business Intelligence",
+                    "company": "Empresa Atual",
+                    "period": "Fev 2026 – Atual",
+                    "bullets": [
+                        "Atuação dedicada à área de dados, com foco em automação de processos e Business Intelligence.",
+                        "Apoio na construção e manutenção de relatórios, dashboards e indicadores para acompanhamento de resultados.",
+                        "Uso de ferramentas e rotinas analíticas para organizar dados, melhorar fluxos e apoiar decisões.",
+                        "Desenvolvimento contínuo de habilidades em análise de dados, visualização, automação e estruturação de informações.",
+                    ],
+                },
+                {
+                    "role": "Experiências anteriores com uso aplicado de dados",
+                    "company": "Outras empresas",
+                    "period": "Antes de Fev 2026",
+                    "bullets": [
+                        "Aplicação de dados em atividades profissionais, mesmo fora de cargos formalmente dedicados à área.",
+                        "Apoio em controles, relatórios, organização de informações e análises para suporte operacional e gerencial.",
+                        "Contato com melhoria de processos, acompanhamento de indicadores e uso prático de dados no contexto do negócio.",
+                        "Construção da base que sustentou a transição para uma atuação diretamente voltada a Automação e BI.",
+                    ],
+                },
+            ],
+        },
+        "contact": {
+            "eyebrow": "Contato",
+            "title": "Vamos conversar",
+            "subtitle": "Disponível para oportunidades de aprendizado, estágio, projetos e conexões na área de dados.",
+            "intro_1": (
+                "Estou em desenvolvimento constante na área de Dados, com foco em Automação, BI e análise. "
+                "Tenho interesse em oportunidades que me permitam evoluir tecnicamente e gerar impacto real com dados."
+            ),
+            "intro_2": (
+                "Se você procura alguém com base técnica, vontade de aprender, visão analítica e dedicação, "
+                "será um prazer conversar."
+            ),
+            "cta_title": "Vamos conversar sobre dados?",
+            "cta_text": "Estou aberto a conexões, oportunidades e projetos em Automação, BI e Análise de Dados.",
+            "items": [
+                ("✉️", "Email", "renanbritto.py@gmail.com", "mailto:renanbritto.py@gmail.com"),
+                ("💼", "LinkedIn", "linkedin.com/in/renan-britto-7b3728212/", "https://www.linkedin.com/in/renan-britto-7b3728212/"),
+                ("🐙", "GitHub", "github.com/Renanbritto", "https://github.com/Renanbritto"),
+            ],
+        },
+        "footer": "Renan Britto · Portfólio de Dados · 2026",
+    },
+    "en": {
+        "location": "Brazil",
+        "headline": "Data, Automation & BI",
+        "hero_title": "Building solutions with data, automation and business vision.",
+        "hero_summary": (
+            "I am a Computer Science student and I have been studying data for a long time, "
+            "building a strong foundation in analysis, visualization, automation and data-driven problem solving. "
+            "Throughout my journey, I have already applied data in different professional contexts, even before working "
+            "in a role exclusively dedicated to the area. Since February 2026, I have been working in a dedicated data role "
+            "as an Automation and Business Intelligence Intern, combining continuous learning, technical practice and business impact."
+        ),
+        "hero_panel": {
+            "label": "Focus Layer",
+            "value": "Data + Automation",
+            "text": "Solutions with business vision, analytical thinking and practical execution.",
+            "cards": [
+                ("Python", "automation"),
+                ("SQL", "querying"),
+                ("BI", "dashboards"),
+                ("Data", "analytics"),
+            ],
+        },
+        "stack_items": [
+            "Python",
+            "SQL",
+            "Power BI",
+            "Streamlit",
+            "Pandas",
+            "Automation",
+            "Analytics",
+            "Business Intelligence",
+        ],
+        "metrics": [
+            ("Feb/2026", "Dedicated professional role in data"),
+            ("Python + SQL", "Main technical foundation"),
+            ("BI + Automation", "Current focus"),
+            ("Academic + Professional", "Applied experience"),
+        ],
+        "sidebar_note": "Open to opportunities in data, automation and BI.",
+        "buttons": {
+            "linkedin": "LinkedIn",
+            "github": "GitHub",
+            "email": "Send email",
+            "project": "View project →",
+            "contact": "Send message",
+        },
+        "about": {
+            "eyebrow": "Profile",
+            "title": "About me",
+            "subtitle": "Computer Science student with practical experience in data, automation, analytics and BI.",
+            "paragraphs": [
+                (
+                    "I am a Computer Science student focused on Data, Analytics, Automation and Business Intelligence. "
+                    "My journey with data started before I formally held a dedicated role in the field, through study, projects "
+                    "and practical applications in the companies I worked for."
+                ),
+                (
+                    "Even in previous roles that were not officially labeled as data positions, I already worked with information analysis, "
+                    "control structuring, reporting, decision support and process improvement based on data."
+                ),
+                (
+                    "Since February 2026, I have been working directly in a dedicated role in the area as an Automation and Business Intelligence Intern. "
+                    "Today, my focus is on transforming data into useful information, automating routines and building analytical solutions that practically support the business."
+                ),
+            ],
+            "areas": [
+                {
+                    "icon": "🎓",
+                    "title": "Computer Science Foundation",
+                    "desc": "Education that strengthens logic, programming, problem structuring and technical vision.",
+                },
+                {
+                    "icon": "📊",
+                    "title": "Business Intelligence",
+                    "desc": "Dashboards, indicators and reporting solutions to track business performance.",
+                },
+                {
+                    "icon": "🔄",
+                    "title": "Automation",
+                    "desc": "Using Python, SQL and analytical tools to reduce manual work and improve efficiency.",
+                },
+                {
+                    "icon": "📈",
+                    "title": "Growth in Data",
+                    "desc": "A path built through continuous study, practical application and constant technical improvement.",
+                },
+            ],
+        },
+        "skills": {
+            "eyebrow": "Stack",
+            "title": "Skills & Tools",
+            "subtitle": "My skills organized in a vertical visual flow, connecting analysis, visualization, statistics, data and automation.",
+            "note": "Hover over the blocks to explore each area.",
+            "groups": [
+                {
+                    "title": "Data Analysis",
+                    "icon": "◔",
+                    "tools": [
+                        "Pandas",
+                        "NumPy",
+                        "EDA",
+                        "Data Cleaning",
+                        "Data Storytelling",
+                        "Exploratory Analysis",
+                    ],
+                },
+                {
+                    "title": "BI & Visualization",
+                    "icon": "▣",
+                    "tools": [
+                        "Power BI",
+                        "DAX",
+                        "Data Modeling",
+                        "Streamlit",
+                        "Matplotlib",
+                        "Seaborn",
+                        "Plotly",
+                    ],
+                },
+                {
+                    "title": "Data Science",
+                    "icon": "◎",
+                    "tools": [
+                        "Scikit-learn",
+                        "Classification",
+                        "Regression",
+                        "Clustering",
+                        "Feature Engineering",
+                        "Model Evaluation",
+                    ],
+                },
+                {
+                    "title": "Applied Statistics",
+                    "icon": "≈",
+                    "tools": [
+                        "Descriptive Statistics",
+                        "Correlation",
+                        "Distributions",
+                        "Hypothesis Testing",
+                        "Performance Metrics",
+                        "A/B Testing",
+                    ],
+                },
+                {
+                    "title": "Data & Databases",
+                    "icon": "▤",
+                    "tools": [
+                        "SQL Server",
+                        "MySQL",
+                        "PostgreSQL",
+                        "T-SQL",
+                        "ETL",
+                        "Data Quality",
+                        "Data Warehousing",
+                    ],
+                },
+                {
+                    "title": "Programming & Automation",
+                    "icon": "↻",
+                    "tools": [
+                        "Python",
+                        "Jupyter Notebook",
+                        "Git / GitHub",
+                        "APIs",
+                        "VBA",
+                        "Scripting",
+                    ],
+                },
+            ],
+        },
+        "projects": {
+            "eyebrow": "Projects",
+            "title": "Projects and applied studies",
+            "subtitle": "Examples of practical applications in dashboards, automation, data quality and analytical studies.",
+            "problem": "Problem",
+            "insights": "Insights",
+            "impact": "Impact",
+            "items": [
+                {
+                    "title": "Business Indicators Dashboard",
+                    "emoji": "📊",
+                    "problem": "The team needed clearer KPI monitoring with less dependence on manual controls.",
+                    "insights": "Structuring the data and KPIs made the analysis faster, more standardized and visually clearer.",
+                    "impact": "The solution improved result reading and supported more consistent monitoring of metrics.",
+                    "tools": ["Power BI", "SQL", "DAX", "Excel"],
+                    "link": "#",
+                },
+                {
+                    "title": "Python Routine Automation",
+                    "emoji": "🔄",
+                    "problem": "Part of the operational work depended on repetitive tasks with high manual execution time.",
+                    "insights": "By mapping the process steps, it was possible to identify standardization, validation and automation opportunities.",
+                    "impact": "Automation reduced rework, increased productivity and improved delivery reliability.",
+                    "tools": ["Python", "Pandas", "Excel", "Automation"],
+                    "link": "#",
+                },
+                {
+                    "title": "Data Quality Study",
+                    "emoji": "🔍",
+                    "problem": "Datasets with inconsistencies and incomplete fields affected reports and later interpretations.",
+                    "insights": "The analysis revealed incorrect filling patterns, missing values and low-reliability records.",
+                    "impact": "The study contributed to greater trust in the information and the creation of validation criteria.",
+                    "tools": ["Python", "Pandas", "SQL", "Data Quality"],
+                    "link": "#",
+                },
+                {
+                    "title": "Applied Forecasting Study",
+                    "emoji": "📈",
+                    "problem": "In some contexts, anticipating demand behavior or trends can support planning.",
+                    "insights": "Time analysis and simple models showed the potential of forecasting as decision support.",
+                    "impact": "The project strengthened my Data Science foundation and showed how models can complement descriptive analysis.",
+                    "tools": ["Python", "Scikit-learn", "Time Series", "Pandas"],
+                    "link": "#",
+                },
+            ],
+        },
+        "method": {
+            "eyebrow": "Method",
+            "title": "My analytical method",
+            "subtitle": "A visual and iterative flow to transform business needs into analysis, automation or practical solutions.",
+            "note": "Hover over the steps to highlight the flow.",
+            "principles_title": "Principles that guide my work",
+            "steps": [
+                ("🎯", "Problem", "Understand the need, the business context and the objective of the analysis."),
+                ("🗂️", "Data", "Map data sources, structure, quality and information availability."),
+                ("🧪", "Hypotheses", "Define questions, metrics and the analytical approach to investigate the problem."),
+                ("🔧", "Treatment", "Clean, transform and organize the data for analysis or modeling."),
+                ("📊", "Analysis", "Explore patterns, test hypotheses and build visualizations or models."),
+                ("✅", "Delivery", "Translate results into insights, dashboards, automation or practical recommendations."),
+            ],
+            "principles": [
+                ("Business before tools", "Technology should serve the real problem, not the opposite."),
+                ("Reliable data first", "Before analyzing or modeling, it is necessary to ensure consistency and understanding of the dataset."),
+                ("Clarity in communication", "An analysis only creates value when it can be understood and used by decision-makers."),
+                ("Automate what makes sense", "Productivity gains appear when recurring tasks are well-structured and automated."),
+                ("Continuous learning", "My growth in data is built through study, practice and constant improvement."),
+                ("Practical solutions", "The final goal is always to generate something usable: insight, process, dashboard or real improvement."),
+            ],
+        },
+        "experience": {
+            "eyebrow": "Experience",
+            "title": "Professional journey",
+            "subtitle": "A path built through study, applied practice and direct work in Automation and Business Intelligence.",
+            "items": [
+                {
+                    "role": "Automation and Business Intelligence Intern",
+                    "company": "Current Company",
+                    "period": "Feb 2026 – Present",
+                    "bullets": [
+                        "Dedicated work in the data area, focused on process automation and Business Intelligence.",
+                        "Support in building and maintaining reports, dashboards and indicators for result tracking.",
+                        "Use of analytical tools and routines to organize data, improve flows and support decisions.",
+                        "Continuous development of skills in data analysis, visualization, automation and information structuring.",
+                    ],
+                },
+                {
+                    "role": "Previous experiences with applied use of data",
+                    "company": "Other companies",
+                    "period": "Before Feb 2026",
+                    "bullets": [
+                        "Applied data in professional activities, even outside formally dedicated data roles.",
+                        "Supported controls, reporting, information organization and analyses for operational and managerial support.",
+                        "Worked with process improvement, KPI monitoring and practical data use in business contexts.",
+                        "Built the foundation that supported the transition into a role directly focused on Automation and BI.",
+                    ],
+                },
+            ],
+        },
+        "contact": {
+            "eyebrow": "Contact",
+            "title": "Let’s talk",
+            "subtitle": "Available for learning opportunities, internships, projects and connections in the data field.",
+            "intro_1": (
+                "I am continuously developing in the Data field, focused on Automation, BI and analytics. "
+                "I am interested in opportunities that allow me to grow technically and generate real impact with data."
+            ),
+            "intro_2": (
+                "If you are looking for someone with a strong technical foundation, willingness to learn, analytical thinking and dedication, "
+                "it will be a pleasure to talk."
+            ),
+            "cta_title": "Let’s talk about data?",
+            "cta_text": "I am open to connections, opportunities and projects in Automation, BI and Data Analysis.",
+            "items": [
+                ("✉️", "Email", "renanbritto.py@gmail.com", "mailto:renanbritto.py@gmail.com"),
+                ("💼", "LinkedIn", "linkedin.com/in/renan-britto-7b3728212/", "https://www.linkedin.com/in/renan-britto-7b3728212/"),
+                ("🐙", "GitHub", "github.com/Renanbritto", "https://github.com/Renanbritto"),
+            ],
+        },
+        "footer": "Renan Britto · Portfólio de Dados · 2026",
+    },
+}
+
+
+# ─────────────────────────────────────────────
+# CSS
+# ─────────────────────────────────────────────
+def inject_css():
+    st.markdown(
+        """
+        <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --bg-0: #eef4fb;
+            --bg-1: #e8f0fb;
+            --bg-2: #dfeafb;
+            --navy-1: #040911;
+            --navy-2: #09111d;
+            --navy-3: #0d1930;
+            --blue-1: #4b8dff;
+            --blue-2: #77b4ff;
+            --blue-3: #b7d8ff;
+            --line-blue: rgba(106, 154, 255, 0.16);
+            --line-blue-strong: rgba(106, 154, 255, 0.28);
+            --text-1: #0c1625;
+            --text-2: #5f6e84;
+            --surface-light: rgba(255,255,255,0.94);
+        }
+
+        html, body, [class*="css"] {
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .stApp {
+            background:
+                radial-gradient(circle at 12% 10%, rgba(76,141,255,0.16), transparent 24%),
+                radial-gradient(circle at 82% 14%, rgba(76,141,255,0.12), transparent 28%),
+                radial-gradient(circle at 50% 78%, rgba(0,176,255,0.08), transparent 24%),
+                linear-gradient(180deg, var(--bg-0) 0%, var(--bg-1) 36%, var(--bg-2) 100%);
+        }
+
+        [data-testid="stAppViewContainer"] {
+            background:
+                linear-gradient(180deg, rgba(255,255,255,0.38) 0%, rgba(255,255,255,0.18) 100%);
+        }
+
+        [data-testid="stHeader"] {
+            background: rgba(255,255,255,0.68);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(106,154,255,0.10);
+        }
+
+        [data-testid="stMainBlockContainer"] {
+            position: relative;
+            padding-top: 2rem;
+        }
+
+        [data-testid="stMainBlockContainer"]::before {
+            content: "";
+            position: absolute;
+            inset: 0 0 auto 0;
+            height: 420px;
+            pointer-events: none;
+            background:
+                radial-gradient(circle at 20% 16%, rgba(76,141,255,0.16), transparent 24%),
+                radial-gradient(circle at 78% 12%, rgba(76,141,255,0.14), transparent 22%),
+                linear-gradient(180deg, rgba(9,17,28,0.03) 0%, transparent 100%);
+            z-index: 0;
+        }
+
+        [data-testid="stMainBlockContainer"] > div {
+            position: relative;
+            z-index: 1;
+        }
+
+        [data-testid="stSidebar"] {
+            background:
+                radial-gradient(circle at top right, rgba(76,141,255,0.14), transparent 28%),
+                linear-gradient(180deg, #07101a 0%, #0c1622 100%);
+            border-right: 1px solid rgba(106,154,255,0.10);
+        }
+
+        [data-testid="stSidebar"] * {
+            color: #E8EEF8 !important;
+        }
+
+        div[data-testid="stRadio"] label {
+            transition: all 0.2s ease;
+        }
+
+        div[data-testid="stRadio"] label:has(input[aria-checked="true"]) {
+            font-weight: 700;
+        }
+
+        [data-testid="stSidebar"] .stRadio label {
+            font-size: 0.92rem;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            padding: 6px 0;
+            cursor: pointer;
+        }
+
+        [data-testid="stSidebar"] .stRadio label:hover {
+            color: #9dcbff !important;
+        }
+
+        [data-testid="stHorizontalBlock"] div[data-testid="stRadio"] > div {
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        [data-testid="stHorizontalBlock"] div[data-testid="stRadio"] label {
+            background: rgba(255,255,255,0.72);
+            border: 1px solid rgba(106,154,255,0.16);
+            padding: 8px 14px !important;
+            border-radius: 999px;
+            min-width: 52px;
+            justify-content: center;
+            box-shadow: 0 8px 18px rgba(10, 18, 30, 0.05);
+        }
+
+        [data-testid="stHorizontalBlock"] div[data-testid="stRadio"] label:has(input[aria-checked="true"]) {
+            background: linear-gradient(135deg, #4b8dff 0%, #77b4ff 100%);
+            border-color: rgba(76,141,255,0.55);
+            color: #ffffff !important;
+            box-shadow: 0 10px 24px rgba(76,141,255,0.24);
+        }
+
+        [data-testid="stHorizontalBlock"] .stRadio label {
+            text-transform: none !important;
+        }
+
+        h1, h2, h3 {
+            font-family: 'DM Serif Display', serif !important;
+            color: var(--text-1) !important;
+        }
+
+        .hero-wrapper {
+            position: relative;
+            overflow: hidden;
+            background:
+                linear-gradient(135deg, var(--navy-1) 0%, var(--navy-2) 36%, var(--navy-3) 100%);
+            border: 1px solid rgba(103, 162, 255, 0.16);
+            border-radius: 28px;
+            padding: 74px 64px;
+            margin-bottom: 40px;
+            box-shadow:
+                0 32px 80px rgba(6, 10, 18, 0.22),
+                0 0 0 1px rgba(120, 170, 255, 0.03),
+                inset 0 1px 0 rgba(255,255,255,0.03);
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .hero-glow {
+            position: absolute;
+            border-radius: 999px;
+            filter: blur(34px);
+            opacity: 0.30;
+            mix-blend-mode: screen;
+        }
+
+        .hero-glow-1 {
+            width: 440px;
+            height: 440px;
+            top: -120px;
+            right: -60px;
+            background: radial-gradient(circle, rgba(50,120,255,0.58) 0%, rgba(50,120,255,0.10) 55%, transparent 74%);
+            animation: heroFloatOne 11s ease-in-out infinite;
+        }
+
+        .hero-glow-2 {
+            width: 340px;
+            height: 340px;
+            left: -90px;
+            bottom: -110px;
+            background: radial-gradient(circle, rgba(0,180,255,0.26) 0%, rgba(0,180,255,0.07) 52%, transparent 72%);
+            animation: heroFloatTwo 13s ease-in-out infinite;
+        }
+
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(96, 143, 220, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(96, 143, 220, 0.08) 1px, transparent 1px);
+            background-size: 42px 42px;
+            opacity: 0.18;
+            mask-image: radial-gradient(circle at center, rgba(0,0,0,1) 36%, rgba(0,0,0,0.22) 82%, transparent 100%);
+            animation: heroGridShift 18s linear infinite;
+        }
+
+        .hero-scan {
+            position: absolute;
+            inset: -10%;
+            background: linear-gradient(
+                115deg,
+                transparent 0%,
+                transparent 44%,
+                rgba(130, 180, 255, 0.06) 50%,
+                transparent 56%,
+                transparent 100%
+            );
+            animation: heroScan 10s linear infinite;
+        }
+
+        .hero-particles {
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(circle at 12% 22%, rgba(132,188,255,0.28) 0 1.5px, transparent 2px),
+                radial-gradient(circle at 28% 68%, rgba(132,188,255,0.20) 0 1.5px, transparent 2px),
+                radial-gradient(circle at 48% 38%, rgba(132,188,255,0.16) 0 1.5px, transparent 2px),
+                radial-gradient(circle at 64% 18%, rgba(132,188,255,0.20) 0 1.5px, transparent 2px),
+                radial-gradient(circle at 76% 58%, rgba(132,188,255,0.22) 0 1.5px, transparent 2px),
+                radial-gradient(circle at 90% 30%, rgba(132,188,255,0.18) 0 1.5px, transparent 2px);
+            animation: heroParticles 14s ease-in-out infinite;
+            opacity: 0.7;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: minmax(0, 1.25fr) minmax(290px, 0.75fr);
+            gap: 34px;
+            align-items: stretch;
+        }
+
+        .hero-copy {
+            max-width: 820px;
+        }
+
+        .hero-eyebrow {
+            font-size: 0.78rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: #84baff;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        .hero-name {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(2.8rem, 5vw, 4.5rem);
+            color: #f8fbff;
+            line-height: 1.02;
+            margin: 0 0 14px 0;
+            text-shadow: 0 0 18px rgba(118, 170, 255, 0.08);
+        }
+
+        .hero-title {
+            font-size: 1.26rem;
+            color: #bdd9ff;
+            font-weight: 600;
+            margin-bottom: 24px;
+            max-width: 760px;
+        }
+
+        .hero-summary {
+            font-size: 1.03rem;
+            color: #d1d9e7;
+            line-height: 1.9;
+            max-width: 760px;
+            margin-bottom: 34px;
+        }
+
+        .hero-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 34px;
+        }
+
+        .stack-chip {
+            background: rgba(12, 22, 35, 0.82);
+            border: 1px solid rgba(124, 170, 255, 0.22);
+            color: #dceaff;
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+            transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .stack-chip:hover {
+            transform: translateY(-2px);
+            border-color: rgba(124, 170, 255, 0.42);
+            background: rgba(18, 31, 51, 0.96);
+        }
+
+        .hero-cta-row {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 13px 28px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-decoration: none;
+            transition: transform 0.2s ease, opacity 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.96;
+        }
+
+        .cta-primary {
+            background: linear-gradient(135deg, #86b8ff 0%, #4d8fff 100%);
+            color: #07111d;
+            box-shadow: 0 10px 24px rgba(76, 141, 255, 0.24);
+        }
+
+        .cta-secondary {
+            background: rgba(12, 20, 31, 0.52);
+            border: 1px solid rgba(124, 170, 255, 0.24);
+            color: #d9e8ff;
+        }
+
+        .hero-panel {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 18px;
+            padding: 24px;
+            border-radius: 24px;
+            background:
+                linear-gradient(180deg, rgba(13, 22, 36, 0.72) 0%, rgba(8, 14, 23, 0.92) 100%);
+            border: 1px solid rgba(123, 170, 255, 0.14);
+            box-shadow:
+                inset 0 1px 0 rgba(255,255,255,0.03),
+                0 18px 40px rgba(3, 8, 18, 0.18);
+            backdrop-filter: blur(6px);
+        }
+
+        .hero-panel-label {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: #85bcff;
+            font-weight: 700;
+        }
+
+        .hero-panel-value {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.78rem;
+            color: #f6f9ff;
+            line-height: 1.1;
+            margin-top: 6px;
+            margin-bottom: 8px;
+        }
+
+        .hero-panel-text {
+            color: #aab8cf;
+            font-size: 0.88rem;
+            line-height: 1.72;
+        }
+
+        .hero-panel-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .hero-panel-mini {
+            padding: 14px 12px;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(120, 170, 255, 0.10);
+            transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+        }
+
+        .hero-panel-mini:hover {
+            transform: translateY(-2px);
+            border-color: rgba(120, 170, 255, 0.22);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .hero-panel-mini strong {
+            display: block;
+            color: #f6f9ff;
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+
+        .hero-panel-mini span {
+            color: #97a9c4;
+            font-size: 0.76rem;
+        }
+
+        .card,
+        .metric-box,
+        .exp-card,
+        .contact-item {
+            background:
+                linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(247,250,255,0.96) 100%);
+            border: 1px solid rgba(106,154,255,0.14);
+            border-radius: 14px;
+            box-shadow:
+                0 16px 34px rgba(13, 24, 40, 0.05),
+                inset 0 1px 0 rgba(255,255,255,0.55);
+        }
+
+        .card {
+            padding: 28px;
+            height: 100%;
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover,
+        .exp-card:hover,
+        .contact-item:hover {
+            border-color: rgba(106,154,255,0.28);
+            box-shadow:
+                0 20px 38px rgba(13, 24, 40, 0.07),
+                inset 0 1px 0 rgba(255,255,255,0.58);
+        }
+
+        .card-accent {
+            border-left: 4px solid #6ca6ff;
+        }
+
+        .metric-box {
+            padding: 24px 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .metric-number {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2.2rem;
+            color: #0f1a2c;
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+
+        .metric-label {
+            font-size: 0.78rem;
+            color: #6b7790;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+        }
+
+        .tech-tag {
+            display: inline-block;
+            background: rgba(89, 143, 255, 0.06);
+            border: 1px solid rgba(106,154,255,0.16);
+            color: #29405f;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            margin: 3px 3px 3px 0;
+            transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+        }
+
+        .tech-tag:hover {
+            transform: translateY(-2px);
+            background: rgba(89, 143, 255, 0.11);
+            border-color: rgba(106,154,255,0.30);
+        }
+
+        .section-divider {
+            border: none;
+            border-top: 1px solid rgba(106,154,255,0.16);
+            margin: 48px 0 40px 0;
+        }
+
+        .section-eyebrow {
+            font-size: 0.72rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: #4b8dff;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .section-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2rem;
+            color: #0d1726;
+            margin-bottom: 8px;
+        }
+
+        .section-subtitle {
+            color: #667387;
+            font-size: 0.96rem;
+            margin-bottom: 32px;
+            line-height: 1.75;
+            max-width: 760px;
+        }
+
+        .projects-showcase {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .project-card {
+            position: relative;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at top right, rgba(119,180,255,0.12), transparent 32%),
+                linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(246,249,255,0.98) 100%);
+            border: 1px solid rgba(106,154,255,0.14);
+            border-radius: 20px;
+            padding: 22px;
+            box-shadow:
+                0 18px 34px rgba(13, 24, 40, 0.05),
+                inset 0 1px 0 rgba(255,255,255,0.56);
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(106,154,255,0.28);
+            box-shadow:
+                0 24px 40px rgba(13, 24, 40, 0.08),
+                inset 0 1px 0 rgba(255,255,255,0.58);
+        }
+
+        .project-card-head {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .project-card-emoji {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0b1524 0%, #14345f 100%);
+            color: #ffffff;
+            font-size: 1.3rem;
+            box-shadow: 0 10px 24px rgba(10, 18, 30, 0.12);
+        }
+
+        .project-card-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.28rem;
+            color: #111111;
+            line-height: 1.15;
+        }
+
+        .project-block {
+            margin-bottom: 14px;
+        }
+
+        .project-kicker {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #4b8dff;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .project-copy {
+            font-size: 0.88rem;
+            color: #445168;
+            line-height: 1.68;
+        }
+
+        .project-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 14px;
+        }
+
+        .project-link {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #15407f;
+            text-decoration: none;
+            background: rgba(89,143,255,0.08);
+            border: 1px solid rgba(106,154,255,0.18);
+            padding: 9px 18px;
+            border-radius: 10px;
+            letter-spacing: 0.04em;
+            transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+        }
+
+        .project-link:hover {
+            transform: translateY(-2px);
+            background: rgba(89,143,255,0.12);
+            border-color: rgba(106,154,255,0.28);
+        }
+
+        .principles-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .exp-card {
+            padding: 28px;
+            margin-bottom: 16px;
+        }
+
+        .exp-company {
+            font-weight: 700;
+            color: #111111;
+            font-size: 1rem;
+        }
+
+        .exp-role {
+            color: #4b8dff;
+            font-size: 0.88rem;
+            font-weight: 600;
+            margin: 2px 0 4px 0;
+        }
+
+        .exp-period {
+            color: #8090a8;
+            font-size: 0.78rem;
+            margin-bottom: 14px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 18px 20px;
+            margin-bottom: 12px;
+            text-decoration: none;
+            color: #111111;
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .contact-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .skills-shell {
+            position: relative;
+            padding: 8px 2px 18px 2px;
+            margin-bottom: 14px;
+        }
+
+        .skills-flow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            width: 100%;
+            padding: 6px 2px 10px 2px;
+        }
+
+        .skills-node {
+            position: relative;
+            width: min(100%, 760px);
+            min-height: 220px;
+            background:
+                radial-gradient(circle at top right, rgba(119,180,255,0.14), transparent 30%),
+                linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(246,249,255,0.98) 100%);
+            border: 1px solid rgba(106,154,255,0.14);
+            border-radius: 18px;
+            padding: 22px 20px 20px 20px;
+            box-shadow: 0 14px 30px rgba(17,17,17,0.05);
+            transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+            overflow: hidden;
+        }
+
+        .skills-node::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(119,180,255,0.08), transparent 45%);
+            opacity: 0;
+            transition: opacity 0.22s ease;
+            pointer-events: none;
+        }
+
+        .skills-node:hover {
+            transform: translateY(-8px);
+            border-color: rgba(106,154,255,0.34);
+            box-shadow: 0 22px 40px rgba(17,17,17,0.10);
+        }
+
+        .skills-node:hover::before {
+            opacity: 1;
+        }
+
+        .skills-node-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .skills-node-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.22rem;
+            color: #111111;
+            line-height: 1.2;
+            max-width: 520px;
+        }
+
+        .skills-node-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #0b1524 0%, #132541 100%);
+            color: #F7F7F5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 10px 20px rgba(17,17,17,0.12);
+            transition: transform 0.22s ease;
+            flex-shrink: 0;
+        }
+
+        .skills-node:hover .skills-node-icon {
+            transform: rotate(-6deg) scale(1.06);
+        }
+
+        .skills-tags-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skills-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 7px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(106,154,255,0.15);
+            background: rgba(89, 143, 255, 0.06);
+            color: #3f5067;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+        }
+
+        .skills-tag:hover {
+            transform: translateY(-2px);
+            background: rgba(89, 143, 255, 0.10);
+            border-color: rgba(106,154,255,0.30);
+        }
+
+        .skills-connector {
+            position: relative;
+            width: 100%;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .skills-connector::before {
+            content: "";
+            width: 3px;
+            height: 100%;
+            border-radius: 999px;
+            background: linear-gradient(
+                180deg,
+                rgba(106,154,255,0.10) 0%,
+                rgba(106,154,255,0.75) 50%,
+                rgba(106,154,255,0.10) 100%
+            );
+            background-size: 100% 220%;
+            animation: flowMoveVertical 4s linear infinite;
+        }
+
+        .skills-connector::after {
+            content: "◆";
+            position: absolute;
+            left: 50%;
+            bottom: -2px;
+            transform: translateX(-50%);
+            color: #4b8dff;
+            font-size: 1rem;
+            text-shadow: 0 4px 10px rgba(17,17,17,0.08);
+        }
+
+        .skills-note {
+            margin-top: 8px;
+            color: #667387;
+            font-size: 0.8rem;
+            letter-spacing: 0.02em;
+        }
+
+        .method-shell {
+            position: relative;
+            overflow-x: auto;
+            padding: 8px 2px 18px 2px;
+            margin-bottom: 12px;
+        }
+
+        .method-shell::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .method-shell::-webkit-scrollbar-thumb {
+            background: rgba(106,154,255,0.28);
+            border-radius: 999px;
+        }
+
+        .method-flow {
+            display: flex;
+            align-items: stretch;
+            gap: 14px;
+            min-width: max-content;
+            padding: 6px 2px 10px 2px;
+        }
+
+        .method-node {
+            position: relative;
+            width: 230px;
+            min-height: 220px;
+            background:
+                radial-gradient(circle at top right, rgba(119,180,255,0.14), transparent 30%),
+                linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(246,249,255,0.98) 100%);
+            border: 1px solid rgba(106,154,255,0.14);
+            border-radius: 18px;
+            padding: 20px 18px 18px 18px;
+            box-shadow: 0 14px 30px rgba(17,17,17,0.05);
+            transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+            overflow: hidden;
+        }
+
+        .method-node::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(119,180,255,0.08), transparent 45%);
+            opacity: 0;
+            transition: opacity 0.22s ease;
+            pointer-events: none;
+        }
+
+        .method-node:hover {
+            transform: translateY(-8px);
+            border-color: rgba(106,154,255,0.34);
+            box-shadow: 0 22px 40px rgba(17,17,17,0.10);
+        }
+
+        .method-node:hover::before {
+            opacity: 1;
+        }
+
+        .method-node-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 18px;
+        }
+
+        .method-step-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 42px;
+            height: 42px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #0b1524 0%, #14345f 100%);
+            color: #F7F7F5;
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            box-shadow: 0 8px 20px rgba(17,17,17,0.14);
+        }
+
+        .method-node-icon {
+            font-size: 1.7rem;
+            line-height: 1;
+            transition: transform 0.22s ease;
+        }
+
+        .method-node:hover .method-node-icon {
+            transform: scale(1.12) rotate(-4deg);
+        }
+
+        .method-node-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.2rem;
+            color: #111111;
+            margin-bottom: 8px;
+        }
+
+        .method-node-desc {
+            color: #666660;
+            font-size: 0.85rem;
+            line-height: 1.65;
+        }
+
+        .method-connector {
+            position: relative;
+            min-width: 88px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .method-connector::before {
+            content: "";
+            width: 100%;
+            height: 3px;
+            border-radius: 999px;
+            background: linear-gradient(
+                90deg,
+                rgba(106,154,255,0.10) 0%,
+                rgba(106,154,255,0.75) 50%,
+                rgba(106,154,255,0.10) 100%
+            );
+            background-size: 220% 100%;
+            animation: methodFlowMove 4s linear infinite;
+        }
+
+        .method-connector::after {
+            content: "→";
+            position: absolute;
+            right: -2px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 28px;
+            height: 28px;
+            border-radius: 999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #F7F9FD;
+            border: 1px solid rgba(106,154,255,0.20);
+            color: #4b8dff;
+            font-weight: 700;
+            box-shadow: 0 6px 16px rgba(17,17,17,0.06);
+        }
+
+        .method-note {
+            margin-top: 8px;
+            color: #667387;
+            font-size: 0.8rem;
+            letter-spacing: 0.02em;
+        }
+
+        .principle-mini-card {
+            background: linear-gradient(180deg, #FCFDFF 0%, #F3F8FF 100%);
+            border: 1px solid rgba(106,154,255,0.14);
+            border-radius: 14px;
+            padding: 18px;
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .principle-mini-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(106,154,255,0.28);
+            box-shadow: 0 12px 24px rgba(17,17,17,0.05);
+        }
+
+        @keyframes heroFloatOne {
+            0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+            50% { transform: translate3d(-26px, 18px, 0) scale(1.06); }
+        }
+
+        @keyframes heroFloatTwo {
+            0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+            50% { transform: translate3d(22px, -16px, 0) scale(1.05); }
+        }
+
+        @keyframes heroGridShift {
+            0% { transform: translate3d(0, 0, 0); }
+            50% { transform: translate3d(-12px, -10px, 0); }
+            100% { transform: translate3d(0, 0, 0); }
+        }
+
+        @keyframes heroScan {
+            0% { transform: translateX(-24%); }
+            100% { transform: translateX(24%); }
+        }
+
+        @keyframes heroParticles {
+            0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.64; }
+            50% { transform: translateY(-8px) translateX(6px); opacity: 0.88; }
+        }
+
+        @keyframes methodFlowMove {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        @keyframes flowMoveVertical {
+            0% { background-position: 0 200%; }
+            100% { background-position: 0 -200%; }
+        }
+
+        #MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
+
+        @media (max-width: 1100px) {
+            .projects-showcase {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .hero-wrapper {
+                padding: 34px 24px;
+                border-radius: 22px;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .hero-panel {
+                padding: 18px;
+            }
+
+            .hero-panel-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .hero-title {
+                font-size: 1.1rem;
+            }
+
+            .hero-summary {
+                font-size: 0.97rem;
+                line-height: 1.8;
+            }
+
+            .principles-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .skills-node,
+            .method-node {
+                width: 100%;
+                min-height: auto;
+            }
+
+            .method-flow {
+                flex-direction: column;
+                min-width: 100%;
+                gap: 10px;
+            }
+
+            .method-connector {
+                min-width: 100%;
+                width: 100%;
+                height: 42px;
+            }
+
+            .method-connector::before {
+                width: 3px;
+                height: 100%;
+            }
+
+            .method-connector::after {
+                right: 50%;
+                top: auto;
+                bottom: -4px;
+                transform: translateX(50%) rotate(90deg);
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+# ─────────────────────────────────────────────
+# HELPERS
+# ─────────────────────────────────────────────
+def get_lang():
+    if "lang" not in st.session_state:
+        st.session_state["lang"] = "pt"
+    return st.session_state["lang"]
+
+
+def content():
+    return CONTENT[get_lang()]
+
+
+def render_html(html: str):
+    cleaned = "\n".join(
+        line.lstrip()
+        for line in html.splitlines()
+        if line.strip()
+    )
+    st.markdown(cleaned, unsafe_allow_html=True)
+
+
+def render_section_header(eyebrow, title, subtitle=None):
+    st.markdown(f'<div class="section-eyebrow">{eyebrow}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="section-title">{title}</div>', unsafe_allow_html=True)
+    if subtitle:
+        st.markdown(f'<div class="section-subtitle">{subtitle}</div>', unsafe_allow_html=True)
+
+
+def render_tags(tags):
+    return "".join(f'<span class="tech-tag">{tag}</span>' for tag in tags)
+
+
+def section_divider():
+    st.markdown('<hr class="section-divider">', unsafe_allow_html=True)
+
+
+def render_language_switcher():
+    left, right = st.columns([8, 2])
+    with right:
+        st.radio(
+            "Idioma / Language",
+            options=list(LANG_OPTIONS.keys()),
+            format_func=lambda x: LANG_OPTIONS[x]["flag"],
+            horizontal=True,
+            label_visibility="collapsed",
+            key="lang",
+        )
+
+# ─────────────────────────────────────────────
+# SIDEBAR
+# ─────────────────────────────────────────────
+def render_sidebar():
+    current = content()
+
+    with st.sidebar:
+        render_html(
+            f"""
+            <div style="padding: 8px 0 28px 0;">
+                <div style="font-family:'DM Serif Display',serif; font-size:1.35rem; color:#F7F7F5; margin-bottom:4px;">
+                    {PROFILE["name"]}
+                </div>
+                <div style="font-size:0.76rem; color:#84baff; letter-spacing:0.12em; text-transform:uppercase;">
+                    {current["headline"]}
+                </div>
+                <div style="font-size:0.72rem; color:#9fb2cc; margin-top:10px;">
+                    {current["location"]}
+                </div>
+            </div>
+            <hr style="border:none;border-top:1px solid rgba(106,154,255,0.12);margin-bottom:24px;">
+            """
+        )
+
+        selected_key = st.radio(
+            "Navigation",
+            options=list(NAV_ITEMS.keys()),
+            format_func=lambda key: NAV_ITEMS[key][get_lang()],
+            label_visibility="collapsed",
+        )
+
+        st.markdown("<br>", unsafe_allow_html=True)
+        render_html(
+            f"""
+            <div style="font-size:0.7rem; color:#9fb2cc; padding-top:24px; border-top:1px solid rgba(106,154,255,0.12);">
+                {current["sidebar_note"]}
+            </div>
+            """
+        )
+
+    return selected_key
+
+# ─────────────────────────────────────────────
+# SEÇÕES
+# ─────────────────────────────────────────────
+def render_hero():
+    current = content()
+    buttons = current["buttons"]
+    panel = current["hero_panel"]
+    stack_html = "".join(f'<span class="stack-chip">{item}</span>' for item in current["stack_items"])
+    panel_cards_html = "".join(
+        f"""
+        <div class="hero-panel-mini">
+            <strong>{title}</strong>
+            <span>{subtitle}</span>
+        </div>
+        """
+        for title, subtitle in panel["cards"]
+    )
+
+    render_html(
+        f"""
+        <div class="hero-wrapper">
+            <div class="hero-bg">
+                <div class="hero-glow hero-glow-1"></div>
+                <div class="hero-glow hero-glow-2"></div>
+                <div class="hero-grid"></div>
+                <div class="hero-scan"></div>
+                <div class="hero-particles"></div>
+            </div>
+
+            <div class="hero-content">
+                <div class="hero-copy">
+                    <div class="hero-eyebrow">{current["headline"]}</div>
+                    <div class="hero-name">{PROFILE["name"]}</div>
+                    <div class="hero-title">{current["hero_title"]}</div>
+                    <p class="hero-summary">{current["hero_summary"]}</p>
+
+                    <div class="hero-stack">
+                        {stack_html}
+                    </div>
+
+                    <div class="hero-cta-row">
+                        <a href="{PROFILE["linkedin"]}" target="_blank" class="cta-btn cta-primary">{buttons["linkedin"]}</a>
+                        <a href="{PROFILE["github"]}" target="_blank" class="cta-btn cta-secondary">{buttons["github"]}</a>
+                        <a href="{PROFILE["email"]}" class="cta-btn cta-secondary">{buttons["email"]}</a>
+                    </div>
+                </div>
+
+                <div class="hero-panel">
+                    <div>
+                        <div class="hero-panel-label">{panel["label"]}</div>
+                        <div class="hero-panel-value">{panel["value"]}</div>
+                        <div class="hero-panel-text">{panel["text"]}</div>
+                    </div>
+
+                    <div class="hero-panel-grid">
+                        {panel_cards_html}
+                    </div>
+                </div>
+            </div>
+        </div>
+        """
+    )
+    render_highlights()
+
+
+def render_highlights():
+    current = content()
+    cols = st.columns(len(current["metrics"]))
+    for col, (number, label) in zip(cols, current["metrics"]):
+        with col:
+            render_html(
+                f"""
+                <div class="metric-box">
+                    <div class="metric-number">{number}</div>
+                    <div class="metric-label">{label}</div>
+                </div>
+                """
+            )
+
+
+def render_about():
+    current = content()["about"]
+
+    render_section_header(
+        current["eyebrow"],
+        current["title"],
+        current["subtitle"],
+    )
+
+    col1, col2 = st.columns([3, 2], gap="large")
+
+    with col1:
+        paragraphs_html = "".join(
+            f'<p style="color:#445168; line-height:1.85; font-size:0.97rem; margin-top:{0 if i == 0 else 14}px;">{text}</p>'
+            for i, text in enumerate(current["paragraphs"])
+        )
+        render_html(
+            f"""
+            <div class="card">
+                {paragraphs_html}
+            </div>
+            """
+        )
+
+    with col2:
+        for area in current["areas"]:
+            render_html(
+                f"""
+                <div class="card card-accent" style="margin-bottom:12px;">
+                    <div style="font-size:1.2rem; margin-bottom:6px;">{area["icon"]}</div>
+                    <div style="font-weight:700; color:#111111; font-size:0.92rem; margin-bottom:4px;">
+                        {area["title"]}
+                    </div>
+                    <div style="color:#6b7790; font-size:0.82rem; line-height:1.6;">
+                        {area["desc"]}
+                    </div>
+                </div>
+                """
+            )
+
+
+def render_skills():
+    current = content()["skills"]
+
+    render_section_header(
+        current["eyebrow"],
+        current["title"],
+        current["subtitle"],
+    )
+
+    flow_parts = []
+
+    for idx, skill_group in enumerate(current["groups"], start=1):
+        tags_html = "".join(
+            f'<span class="skills-tag">{tool}</span>'
+            for tool in skill_group["tools"]
+        )
+
+        flow_parts.append(
+            f"""
+            <div class="skills-node">
+                <div class="skills-node-header">
+                    <div class="skills-node-title">{skill_group["title"]}</div>
+                    <div class="skills-node-icon">{skill_group["icon"]}</div>
+                </div>
+                <div class="skills-tags-wrap">
+                    {tags_html}
+                </div>
+            </div>
+            """
+        )
+
+        if idx < len(current["groups"]):
+            flow_parts.append('<div class="skills-connector" aria-hidden="true"></div>')
+
+    render_html(
+        f"""
+        <div class="skills-shell">
+            <div class="skills-flow">
+                {''.join(flow_parts)}
+            </div>
+        </div>
+        <div class="skills-note">{current["note"]}</div>
+        """
+    )
+
+
+def render_projects():
+    current = content()["projects"]
+    buttons = content()["buttons"]
+
+    render_section_header(
+        current["eyebrow"],
+        current["title"],
+        current["subtitle"],
+    )
+
+    cards_html = []
+    for project in current["items"]:
+        cards_html.append(
+            f"""
+            <div class="project-card">
+                <div class="project-card-head">
+                    <div class="project-card-emoji">{project["emoji"]}</div>
+                    <div class="project-card-title">{project["title"]}</div>
+                </div>
+
+                <div class="project-block">
+                    <div class="project-kicker">{current["problem"]}</div>
+                    <div class="project-copy">{project["problem"]}</div>
+                </div>
+
+                <div class="project-block">
+                    <div class="project-kicker">{current["insights"]}</div>
+                    <div class="project-copy">{project["insights"]}</div>
+                </div>
+
+                <div class="project-block">
+                    <div class="project-kicker">{current["impact"]}</div>
+                    <div class="project-copy">{project["impact"]}</div>
+                </div>
+
+                <div class="project-footer">
+                    <div>{render_tags(project["tools"])}</div>
+                    <a href="{project["link"]}" target="_blank" class="project-link">{buttons["project"]}</a>
+                </div>
+            </div>
+            """
+        )
+
+    render_html(
+        f"""
+        <div class="projects-showcase">
+            {''.join(cards_html)}
+        </div>
+        """
+    )
+
+
+def render_method():
+    current = content()["method"]
+
+    render_section_header(
+        current["eyebrow"],
+        current["title"],
+        current["subtitle"],
+    )
+
+    flow_parts = []
+
+    for idx, (icon, label, desc) in enumerate(current["steps"], start=1):
+        flow_parts.append(
+            f"""
+            <div class="method-node">
+                <div class="method-node-header">
+                    <div class="method-step-badge">{idx:02d}</div>
+                    <div class="method-node-icon">{icon}</div>
+                </div>
+                <div class="method-node-title">{label}</div>
+                <div class="method-node-desc">{desc}</div>
+            </div>
+            """
+        )
+
+        if idx < len(current["steps"]):
+            flow_parts.append('<div class="method-connector" aria-hidden="true"></div>')
+
+    render_html(
+        f"""
+        <div class="method-shell">
+            <div class="method-flow">
+                {''.join(flow_parts)}
+            </div>
+        </div>
+        <div class="method-note">{current["note"]}</div>
+        """
+    )
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    principles_html = "".join(
+        f"""
+        <div class="principle-mini-card">
+            <div style="font-weight:700; font-size:0.88rem; color:#111111; margin-bottom:6px;">{title}</div>
+            <div style="font-size:0.84rem; color:#6b7790; line-height:1.65;">{desc}</div>
+        </div>
+        """
+        for title, desc in current["principles"]
+    )
+
+    render_html(
+        f"""
+        <div class="card" style="margin-top:8px;">
+            <div style="font-family:'DM Serif Display',serif; font-size:1.1rem; color:#111111; margin-bottom:16px;">
+                {current["principles_title"]}
+            </div>
+            <div class="principles-grid">
+                {principles_html}
+            </div>
+        </div>
+        """
+    )
+
+
+def render_experience():
+    current = content()["experience"]
+
+    render_section_header(
+        current["eyebrow"],
+        current["title"],
+        current["subtitle"],
+    )
+
+    for exp in current["items"]:
+        bullets_html = "".join(
+            f"<li style='color:#445168; font-size:0.88rem; line-height:1.75; margin-bottom:4px;'>{bullet}</li>"
+            for bullet in exp["bullets"]
+        )
+
+        render_html(
+            f"""
+            <div class="exp-card">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:8px;">
+                    <div>
+                        <div class="exp-company">{exp["company"]}</div>
+                        <div class="exp-role">{exp["role"]}</div>
+                    </div>
+                    <div class="exp-period">{exp["period"]}</div>
+                </div>
+                <ul style="margin:12px 0 0 0; padding-left:18px;">
+                    {bullets_html}
+                </ul>
+            </div>
+            """
+        )
+
+
+def render_contact():
+    current = content()["contact"]
+    buttons = content()["buttons"]
+
+    render_section_header(
+        current["eyebrow"],
+        current["title"],
+        current["subtitle"],
+    )
+
+    col1, col2 = st.columns([2, 3], gap="large")
+
+    with col1:
+        render_html(
+            f"""
+            <div class="card" style="height:100%;">
+                <p style="color:#445168; font-size:0.95rem; line-height:1.8; margin-bottom:20px;">
+                    {current["intro_1"]}
+                </p>
+                <p style="color:#445168; font-size:0.95rem; line-height:1.8;">
+                    {current["intro_2"]}
+                </p>
+            </div>
+            """
+        )
+
+    with col2:
+        for icon, platform, handle, link in current["items"]:
+            render_html(
+                f"""
+                <a href="{link}" target="_blank" class="contact-item">
+                    <span style="font-size:1.3rem;">{icon}</span>
+                    <div>
+                        <div style="font-size:0.7rem; text-transform:uppercase; letter-spacing:0.12em; color:#4b8dff; font-weight:700; margin-bottom:2px;">
+                            {platform}
+                        </div>
+                        <div style="font-size:0.92rem; font-weight:600; color:#111111;">
+                            {handle}
+                        </div>
+                    </div>
+                </a>
+                """
+            )
+
+    st.markdown("<br>", unsafe_allow_html=True)
+    render_html(
+        f"""
+        <div style="text-align:center; padding:40px 20px; background:linear-gradient(135deg, #08111d 0%, #10213a 100%); border:1px solid rgba(106,154,255,0.14); border-radius:18px; margin-top:24px; box-shadow:0 18px 40px rgba(6,10,18,0.14);">
+            <div style="font-family:'DM Serif Display',serif; font-size:1.8rem; color:#F7F9FF; margin-bottom:12px;">
+                {current["cta_title"]}
+            </div>
+            <div style="color:#b6c6de; font-size:0.95rem; margin-bottom:24px;">
+                {current["cta_text"]}
+            </div>
+            <a href="{PROFILE["email"]}"
+               style="display:inline-block; background:linear-gradient(135deg, #86b8ff 0%, #4d8fff 100%); color:#07111d; padding:14px 36px; border-radius:10px; font-weight:700; font-size:0.9rem; text-decoration:none; letter-spacing:0.06em; box-shadow:0 10px 24px rgba(76,141,255,0.24);">
+                {buttons["contact"]}
+            </a>
+        </div>
+        """
+    )
+
+# ─────────────────────────────────────────────
+# APP
+# ─────────────────────────────────────────────
+def main():
+    inject_css()
+    render_language_switcher()
+    selected_key = render_sidebar()
+
+    section_map = {
+        "home": render_hero,
+        "about": render_about,
+        "skills": render_skills,
+        "projects": render_projects,
+        "method": render_method,
+        "experience": render_experience,
+        "contact": render_contact,
+    }
+
+    render_fn = section_map.get(selected_key, render_hero)
+    render_fn()
+
+    section_divider()
+    render_html(
+        f"""
+        <div style="text-align:center; color:#7b89a1; font-size:0.76rem; padding-bottom:24px;">
+            {content()["footer"]}
+        </div>
+        """
+    )
+
+
+if __name__ == "__main__":
+    main()
