@@ -2061,9 +2061,15 @@ def inject_css():
 # ─────────────────────────────────────────────
 # HELPERS
 # ─────────────────────────────────────────────
-def get_lang():
+def init_session_state():
     if "lang" not in st.session_state:
         st.session_state["lang"] = "pt"
+    if "selected_page" not in st.session_state:
+        st.session_state["selected_page"] = "home"
+
+
+def get_lang():
+    init_session_state()
     return st.session_state["lang"]
 
 
@@ -2142,7 +2148,16 @@ def render_language_switcher():
 # SIDEBAR
 # ─────────────────────────────────────────────
 def render_sidebar():
+    init_session_state()
     current = content()
+    nav_options = list(NAV_ITEMS.keys())
+    current_page = st.session_state.get("selected_page", "home")
+
+    if current_page not in nav_options:
+        current_page = "home"
+        st.session_state["selected_page"] = current_page
+
+    current_index = nav_options.index(current_page)
 
     with st.sidebar:
         render_html(
@@ -2164,10 +2179,13 @@ def render_sidebar():
 
         selected_key = st.radio(
             "Navigation",
-            options=list(NAV_ITEMS.keys()),
+            options=nav_options,
             format_func=lambda key: NAV_ITEMS[key][get_lang()],
             label_visibility="collapsed",
+            index=current_index,
+            key=f"selected_page_{get_lang()}",
         )
+        st.session_state["selected_page"] = selected_key
 
         st.markdown("<br>", unsafe_allow_html=True)
         render_html(
@@ -2594,6 +2612,7 @@ def render_contact():
 # APP
 # ─────────────────────────────────────────────
 def main():
+    init_session_state()
     inject_css()
     render_language_switcher()
     selected_key = render_sidebar()
