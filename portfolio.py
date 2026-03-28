@@ -282,9 +282,9 @@ CONTENT = {
             "subtitle": "Uma evolução construída com estudo, prática aplicada e atuação direta em Automação e Business Intelligence.",
             "items": [
                 {
-                    "role": "Estagiário em Automação e Business Intelligence",
-                    "company": "Empresa Atual",
-                    "period": "Fev 2026 – Atual",
+                    "role": "Automação e Business Intelligence",
+                    "company": "Nossa Loja",
+                    "period": "02/2026 – Atual",
                     "bullets": [
                         "Atuação dedicada à área de dados, com foco em automação de processos e Business Intelligence.",
                         "Apoio na construção e manutenção de relatórios, dashboards e indicadores para acompanhamento de resultados.",
@@ -293,9 +293,53 @@ CONTENT = {
                     ],
                 },
                 {
-                    "role": "Experiências anteriores com uso aplicado de dados",
-                    "company": "Outras empresas",
-                    "period": "Antes de Fev 2026",
+                    "role": "Analista de Suporte",
+                    "company": "FDC Sistemas",
+                    "period": "02/2025 - 09/2025",
+                    "bullets": [
+                        "Aplicação de dados em atividades profissionais, mesmo fora de cargos formalmente dedicados à área.",
+                        "Apoio em controles, relatórios, organização de informações e análises para suporte operacional e gerencial.",
+                        "Contato com melhoria de processos, acompanhamento de indicadores e uso prático de dados no contexto do negócio.",
+                        "Construção da base que sustentou a transição para uma atuação diretamente voltada a Automação e BI.",
+                    ],
+                },
+                {
+                    "role": "Técnico de Infraestrutura",
+                    "company": "Netsupport",
+                    "period": "10/2024 - 12/2024",
+                    "bullets": [
+                        "Aplicação de dados em atividades profissionais, mesmo fora de cargos formalmente dedicados à área.",
+                        "Apoio em controles, relatórios, organização de informações e análises para suporte operacional e gerencial.",
+                        "Contato com melhoria de processos, acompanhamento de indicadores e uso prático de dados no contexto do negócio.",
+                        "Construção da base que sustentou a transição para uma atuação diretamente voltada a Automação e BI.",
+                    ],
+                },
+                {
+                    "role": "Sales Development Representative",
+                    "company": "Projetil",
+                    "period": "04/2024 - 10/2024",
+                    "bullets": [
+                        "Aplicação de dados em atividades profissionais, mesmo fora de cargos formalmente dedicados à área.",
+                        "Apoio em controles, relatórios, organização de informações e análises para suporte operacional e gerencial.",
+                        "Contato com melhoria de processos, acompanhamento de indicadores e uso prático de dados no contexto do negócio.",
+                        "Construção da base que sustentou a transição para uma atuação diretamente voltada a Automação e BI.",
+                    ],
+                },
+                {
+                    "role": "Assistente em Logística",
+                    "company": "Lupa Tecnologia e Sistemas",
+                    "period": "11/2021 - 02/2023",
+                    "bullets": [
+                        "Aplicação de dados em atividades profissionais, mesmo fora de cargos formalmente dedicados à área.",
+                        "Apoio em controles, relatórios, organização de informações e análises para suporte operacional e gerencial.",
+                        "Contato com melhoria de processos, acompanhamento de indicadores e uso prático de dados no contexto do negócio.",
+                        "Construção da base que sustentou a transição para uma atuação diretamente voltada a Automação e BI.",
+                    ],
+                },
+                {
+                    "role": "Assistente em Logística",
+                    "company": "Medquimica - Lupin Pharmaceuticals",
+                    "period": "01/2020 - 11/2021",
                     "bullets": [
                         "Aplicação de dados em atividades profissionais, mesmo fora de cargos formalmente dedicados à área.",
                         "Apoio em controles, relatórios, organização de informações e análises para suporte operacional e gerencial.",
@@ -1592,6 +1636,275 @@ def inject_css():
             box-shadow: 0 12px 24px rgba(17,17,17,0.05);
         }
 
+        .experience-shell {
+            position: relative;
+            padding: 8px 2px 18px 2px;
+            margin-bottom: 14px;
+        }
+
+        .experience-timeline {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            width: 100%;
+        }
+
+        .experience-timeline::before {
+            content: "";
+            position: absolute;
+            left: 42px;
+            top: 18px;
+            bottom: 18px;
+            width: 4px;
+            border-radius: 999px;
+            background: linear-gradient(
+                180deg,
+                rgba(106,154,255,0.18) 0%,
+                rgba(106,154,255,0.95) 48%,
+                rgba(106,154,255,0.18) 100%
+            );
+            box-shadow: 0 0 18px rgba(76,141,255,0.10);
+        }
+
+        .experience-item {
+            position: relative;
+            display: grid;
+            grid-template-columns: 86px minmax(0, 1fr);
+            gap: 10px;
+            align-items: start;
+            width: 100%;
+        }
+
+        .experience-item::before {
+            content: "";
+            position: absolute;
+            left: 68px;
+            top: 25px;
+            width: 22px;
+            height: 3px;
+            border-radius: 999px;
+            background: linear-gradient(
+                90deg,
+                rgba(106,154,255,0.92) 0%,
+                rgba(106,154,255,0.26) 100%
+            );
+        }
+
+        .experience-rail {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            padding-top: 0;
+            z-index: 2;
+        }
+
+        .experience-node-wrap {
+            position: relative;
+            width: 62px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .experience-node-wrap.current::before {
+            content: "";
+            position: absolute;
+            width: 62px;
+            height: 62px;
+            border-radius: 999px;
+            background: radial-gradient(circle, rgba(76,141,255,0.20) 0%, rgba(76,141,255,0.04) 58%, transparent 72%);
+            animation: experiencePulse 2.8s ease-in-out infinite;
+        }
+
+        .experience-node {
+            position: relative;
+            z-index: 2;
+            width: 52px;
+            height: 52px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #0b1524 0%, #14345f 100%);
+            color: #F7F9FF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            box-shadow: 0 12px 24px rgba(10, 18, 30, 0.16);
+            border: 1px solid rgba(106,154,255,0.16);
+            transition: transform 0.22s ease, box-shadow 0.22s ease;
+        }
+
+        .experience-item:hover .experience-node {
+            transform: translateY(-4px) scale(1.04);
+            box-shadow: 0 16px 28px rgba(10, 18, 30, 0.20);
+        }
+
+        .experience-node.current {
+            background: linear-gradient(135deg, #4b8dff 0%, #77b4ff 100%);
+            color: #06101a;
+            box-shadow:
+                0 14px 30px rgba(76,141,255,0.28),
+                0 0 0 4px rgba(76,141,255,0.12);
+        }
+
+        .experience-node-order {
+            position: absolute;
+            right: -6px;
+            bottom: -6px;
+            min-width: 24px;
+            height: 24px;
+            border-radius: 999px;
+            background: #ffffff;
+            color: #0d1930;
+            border: 1px solid rgba(106,154,255,0.18);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            box-shadow: 0 8px 18px rgba(17,17,17,0.08);
+        }
+
+        .experience-connector {
+            display: none;
+        }
+
+        .experience-card-modern {
+            position: relative;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at top right, rgba(119,180,255,0.14), transparent 32%),
+                linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(246,249,255,0.98) 100%);
+            border: 1px solid rgba(106,154,255,0.14);
+            border-radius: 22px;
+            padding: 24px 24px 22px 24px;
+            box-shadow:
+                0 18px 34px rgba(13, 24, 40, 0.05),
+                inset 0 1px 0 rgba(255,255,255,0.56);
+            transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+        }
+
+        .experience-card-modern::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(119,180,255,0.08), transparent 44%);
+            opacity: 0;
+            transition: opacity 0.22s ease;
+            pointer-events: none;
+        }
+
+        .experience-card-modern:hover {
+            transform: translateY(-6px);
+            border-color: rgba(106,154,255,0.30);
+            box-shadow:
+                0 24px 40px rgba(13, 24, 40, 0.08),
+                inset 0 1px 0 rgba(255,255,255,0.60);
+        }
+
+        .experience-card-modern:hover::before {
+            opacity: 1;
+        }
+
+        .experience-card-modern.current {
+            border-color: rgba(76,141,255,0.28);
+            box-shadow:
+                0 26px 44px rgba(76,141,255,0.10),
+                inset 0 1px 0 rgba(255,255,255,0.62);
+        }
+
+        .experience-growth-bar {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 6px;
+            border-radius: 22px 0 0 22px;
+            background: linear-gradient(180deg, #9fd0ff 0%, #4b8dff 55%, #153f7d 100%);
+            opacity: 0.95;
+        }
+
+        .experience-card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .experience-company-modern {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.42rem;
+            color: #111111;
+            line-height: 1.08;
+            margin-bottom: 6px;
+        }
+
+        .experience-role-modern {
+            color: #4b8dff;
+            font-size: 0.94rem;
+            font-weight: 800;
+            letter-spacing: 0.02em;
+            margin-bottom: 10px;
+        }
+
+        .experience-badge-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .experience-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 7px 12px;
+            border-radius: 999px;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            background: rgba(89,143,255,0.08);
+            border: 1px solid rgba(106,154,255,0.18);
+            color: #35598a;
+        }
+
+        .experience-badge.current {
+            background: linear-gradient(135deg, #4b8dff 0%, #77b4ff 100%);
+            border-color: rgba(76,141,255,0.48);
+            color: #ffffff;
+            box-shadow: 0 10px 22px rgba(76,141,255,0.22);
+        }
+
+        .experience-period-modern {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: rgba(89,143,255,0.08);
+            border: 1px solid rgba(106,154,255,0.18);
+            color: #57749c;
+            font-size: 0.8rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .experience-list {
+            position: relative;
+            z-index: 1;
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .experience-list li {
+            color: #445168;
+            font-size: 0.9rem;
+            line-height: 1.82;
+            margin-bottom: 8px;
+        }
+
         @keyframes heroFloatOne {
             0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
             50% { transform: translate3d(-26px, 18px, 0) scale(1.06); }
@@ -1626,6 +1939,11 @@ def inject_css():
         @keyframes flowMoveVertical {
             0% { background-position: 0 200%; }
             100% { background-position: 0 -200%; }
+        }
+
+        @keyframes experiencePulse {
+            0%, 100% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.08); opacity: 0.45; }
         }
 
         #MainMenu {visibility: hidden;}
@@ -1698,6 +2016,42 @@ def inject_css():
                 bottom: -4px;
                 transform: translateX(50%) rotate(90deg);
             }
+
+            .experience-timeline::before {
+                left: 26px;
+            }
+
+            .experience-item {
+                grid-template-columns: 52px minmax(0, 1fr);
+                gap: 12px;
+            }
+
+            .experience-item::before {
+                left: 44px;
+                width: 16px;
+            }
+
+            .experience-rail {
+                justify-content: flex-start;
+            }
+
+            .experience-node-wrap {
+                width: 52px;
+                justify-content: flex-start;
+            }
+
+            .experience-card-top {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .experience-company-modern {
+                font-size: 1.18rem;
+            }
+
+            .experience-period-modern {
+                white-space: normal;
+            }
         }
         </style>
         """,
@@ -1739,6 +2093,37 @@ def render_tags(tags):
 
 def section_divider():
     st.markdown('<hr class="section-divider">', unsafe_allow_html=True)
+
+
+def get_experience_meta(exp, idx, total):
+    role = exp["role"].lower()
+    period = exp["period"].lower()
+
+    is_current = "atual" in period or "present" in period or "current" in period
+
+    if "business intelligence" in role or "automação" in role or "automation" in role:
+        icon = "⚡"
+    elif "suporte" in role or "support" in role:
+        icon = "🛠️"
+    elif "infra" in role or "infraestrutura" in role:
+        icon = "🖧"
+    elif "sales" in role or "development representative" in role or "comercial" in role:
+        icon = "🚀"
+    elif "logística" in role or "logistica" in role:
+        icon = "📦"
+    else:
+        icon = "💼"
+
+    if is_current:
+        badge = "Atual" if get_lang() == "pt" else "Current"
+    else:
+        badge = "Base" if idx == total else "Etapa" if get_lang() == "pt" else "Stage"
+
+    return {
+        "icon": icon,
+        "is_current": is_current,
+        "badge": badge,
+    }
 
 
 def render_language_switcher():
@@ -2081,6 +2466,8 @@ def render_method():
 
 def render_experience():
     current = content()["experience"]
+    total_items = len(current["items"])
+    flow_parts = []
 
     render_section_header(
         current["eyebrow"],
@@ -2088,28 +2475,57 @@ def render_experience():
         current["subtitle"],
     )
 
-    for exp in current["items"]:
-        bullets_html = "".join(
-            f"<li style='color:#445168; font-size:0.88rem; line-height:1.75; margin-bottom:4px;'>{bullet}</li>"
-            for bullet in exp["bullets"]
-        )
+    for idx, exp in enumerate(current["items"], start=1):
+        meta = get_experience_meta(exp, idx, total_items)
+        bullets_html = "".join(f"<li>{bullet}</li>" for bullet in exp["bullets"])
 
-        render_html(
+        flow_parts.append(
             f"""
-            <div class="exp-card">
-                <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:8px;">
-                    <div>
-                        <div class="exp-company">{exp["company"]}</div>
-                        <div class="exp-role">{exp["role"]}</div>
+            <div class="experience-item">
+                <div class="experience-rail">
+                    <div class="experience-node-wrap {'current' if meta['is_current'] else ''}">
+                        <div class="experience-node {'current' if meta['is_current'] else ''}">
+                            {meta['icon']}
+                            <div class="experience-node-order">{idx:02d}</div>
+                        </div>
                     </div>
-                    <div class="exp-period">{exp["period"]}</div>
                 </div>
-                <ul style="margin:12px 0 0 0; padding-left:18px;">
-                    {bullets_html}
-                </ul>
+
+                <div class="experience-card-modern {'current' if meta['is_current'] else ''}">
+                    <div class="experience-growth-bar"></div>
+
+                    <div class="experience-card-top">
+                        <div>
+                            <div class="experience-company-modern">{exp["company"]}</div>
+                            <div class="experience-role-modern">{exp["role"]}</div>
+
+                            <div class="experience-badge-row">
+                                <span class="experience-badge {'current' if meta['is_current'] else ''}">
+                                    {meta['badge']}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="experience-period-modern">{exp["period"]}</div>
+                    </div>
+
+                    <ul class="experience-list">
+                        {bullets_html}
+                    </ul>
+                </div>
             </div>
             """
         )
+
+    render_html(
+        f"""
+        <div class="experience-shell">
+            <div class="experience-timeline">
+                {''.join(flow_parts)}
+            </div>
+        </div>
+        """
+    )
 
 
 def render_contact():
@@ -2196,6 +2612,7 @@ def main():
     render_fn()
 
     section_divider()
+
     render_html(
         f"""
         <div style="text-align:center; color:#7b89a1; font-size:0.76rem; padding-bottom:24px;">
