@@ -297,10 +297,8 @@ CONTENT = {
                     "company": "FDC Sistemas",
                     "period": "02/2025 - 09/2025",
                     "bullets": [
-                        "Aplicação de dados em atividades profissionais, mesmo fora de cargos formalmente dedicados à área.",
-                        "Apoio em controles, relatórios, organização de informações e análises para suporte operacional e gerencial.",
-                        "Contato com melhoria de processos, acompanhamento de indicadores e uso prático de dados no contexto do negócio.",
-                        "Construção da base que sustentou a transição para uma atuação diretamente voltada a Automação e BI.",
+                        "Suporte a sistemas ERP: Atendimento a usuários do ERP FDC Sistemas, atuando na resolução de incidentes e no suporte operacional, garantindo o uso eficiente da plataforma.",
+                        "Relatórios Completos:criação de relatórios utilizando SQL, garantindo o uso eficiente da plataforma e a disponibilização de informações para tomada de decisão.",
                     ],
                 },
                 {
@@ -308,10 +306,10 @@ CONTENT = {
                     "company": "Netsupport",
                     "period": "10/2024 - 12/2024",
                     "bullets": [
-                        "Aplicação de dados em atividades profissionais, mesmo fora de cargos formalmente dedicados à área.",
-                        "Apoio em controles, relatórios, organização de informações e análises para suporte operacional e gerencial.",
+                        "Implantação e configuração de redes: Planejamento e implementação de redes LAN e Wi-Fi, garantindo conectividade estável em ambientes educacionais (salas, laboratórios e áreas administrativas).",
+                        "Modelagem de infraestrutura de rede: Elaboração de layouts e diagramas de topologia, documentando a arquitetura de redes (roteadores, switches, access points e cabeamento).",
                         "Contato com melhoria de processos, acompanhamento de indicadores e uso prático de dados no contexto do negócio.",
-                        "Construção da base que sustentou a transição para uma atuação diretamente voltada a Automação e BI.",
+                        "Criação e atualização de documentação de infraestrutura, registros de manutenção e relatórios operacionais.",
                     ],
                 },
                 {
@@ -319,34 +317,13 @@ CONTENT = {
                     "company": "Projetil",
                     "period": "04/2024 - 10/2024",
                     "bullets": [
-                        "Aplicação de dados em atividades profissionais, mesmo fora de cargos formalmente dedicados à área.",
-                        "Apoio em controles, relatórios, organização de informações e análises para suporte operacional e gerencial.",
-                        "Contato com melhoria de processos, acompanhamento de indicadores e uso prático de dados no contexto do negócio.",
-                        "Construção da base que sustentou a transição para uma atuação diretamente voltada a Automação e BI.",
+                        "Entendimento de requisitos do cliente: Atuação direta com clientes oriundos da área comercial, identificando necessidades, dores e oportunidades para definição de soluções tecnológicas aderentes ao negócio.",
+                        "Negociação e fechamento de projetos: Condução de negociações técnicas e comerciais, garantindo clareza na proposta de valor e efetivação de contratos.",
+                        "Planejamento de projetos: Estruturação do escopo completo dos projetos, com definição de etapas, entregas e alinhamento prévio com áreas envolvidas.",
+                        "Gestão técnica de soluções: Aplicação de conhecimentos em programação para suporte técnico, validação de soluções e garantia de escalabilidade e robustez.",
                     ],
                 },
-                {
-                    "role": "Assistente em Logística",
-                    "company": "Lupa Tecnologia e Sistemas",
-                    "period": "11/2021 - 02/2023",
-                    "bullets": [
-                        "Aplicação de dados em atividades profissionais, mesmo fora de cargos formalmente dedicados à área.",
-                        "Apoio em controles, relatórios, organização de informações e análises para suporte operacional e gerencial.",
-                        "Contato com melhoria de processos, acompanhamento de indicadores e uso prático de dados no contexto do negócio.",
-                        "Construção da base que sustentou a transição para uma atuação diretamente voltada a Automação e BI.",
-                    ],
-                },
-                {
-                    "role": "Assistente em Logística",
-                    "company": "Medquimica - Lupin Pharmaceuticals",
-                    "period": "01/2020 - 11/2021",
-                    "bullets": [
-                        "Aplicação de dados em atividades profissionais, mesmo fora de cargos formalmente dedicados à área.",
-                        "Apoio em controles, relatórios, organização de informações e análises para suporte operacional e gerencial.",
-                        "Contato com melhoria de processos, acompanhamento de indicadores e uso prático de dados no contexto do negócio.",
-                        "Construção da base que sustentou a transição para uma atuação diretamente voltada a Automação e BI.",
-                    ],
-                },
+             
             ],
         },
         "contact": {
