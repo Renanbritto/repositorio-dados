@@ -129,7 +129,7 @@ CONTENT = {
             "eyebrow": "Stack",
             "title": "Skills e Ferramentas",
             "subtitle": "Minhas habilidades organizadas em um fluxo visual vertical, conectando análise, visualização, estatística, dados e automação.",
-            "note": "Passe o mouse sobre os blocos para explorar melhor cada área.",
+            "note": "",
             "groups": [
                 {
                     "title": "Análise de Dados",
@@ -685,14 +685,28 @@ def inject_css():
         }
 
         [data-testid="stHeader"] {
-            background: rgba(255,255,255,0.68);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(106,154,255,0.10);
+            background:
+                radial-gradient(circle at 14% 50%, rgba(76,141,255,0.18), transparent 22%),
+                linear-gradient(180deg, rgba(9,17,29,0.94) 0%, rgba(12,22,36,0.88) 100%);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(106,154,255,0.18);
+        }
+
+        [data-testid="stHeader"] * {
+            color: #e8f2ff !important;
+        }
+
+        [data-testid="stToolbar"] {
+            color: #e8f2ff !important;
+        }
+
+        [data-testid="stDecoration"] {
+            background: linear-gradient(90deg, #4b8dff 0%, #77b4ff 100%);
         }
 
         [data-testid="stMainBlockContainer"] {
             position: relative;
-            padding-top: 2rem;
+            padding-top: 2.8rem;
         }
 
         [data-testid="stMainBlockContainer"]::before {
@@ -747,6 +761,7 @@ def inject_css():
         [data-testid="stHorizontalBlock"] div[data-testid="stRadio"] > div {
             justify-content: flex-end;
             gap: 10px;
+            padding-top: 8px;
         }
 
         [data-testid="stHorizontalBlock"] div[data-testid="stRadio"] label {
@@ -755,6 +770,7 @@ def inject_css():
             padding: 8px 14px !important;
             border-radius: 999px;
             min-width: 52px;
+            min-height: 44px;
             justify-content: center;
             box-shadow: 0 8px 18px rgba(10, 18, 30, 0.05);
         }
@@ -768,6 +784,11 @@ def inject_css():
 
         [data-testid="stHorizontalBlock"] .stRadio label {
             text-transform: none !important;
+        }
+
+        [data-testid="stHorizontalBlock"] {
+            margin-top: 6px;
+            margin-bottom: 6px;
         }
 
         h1, h2, h3 {
@@ -1933,6 +1954,26 @@ def inject_css():
         }
 
         @media (max-width: 900px) {
+            [data-testid="stHeader"] {
+                background:
+                    radial-gradient(circle at 18% 50%, rgba(76,141,255,0.18), transparent 24%),
+                    linear-gradient(180deg, rgba(9,17,29,0.96) 0%, rgba(12,22,36,0.92) 100%);
+            }
+
+            [data-testid="stMainBlockContainer"] {
+                padding-top: 3.2rem;
+            }
+
+            [data-testid="stHorizontalBlock"] div[data-testid="stRadio"] > div {
+                justify-content: flex-end;
+                padding-top: 12px;
+            }
+
+            [data-testid="stHorizontalBlock"] div[data-testid="stRadio"] label {
+                min-height: 46px;
+                padding: 10px 14px !important;
+            }
+
             .hero-wrapper {
                 padding: 34px 24px;
                 border-radius: 22px;
@@ -2238,6 +2279,22 @@ def render_hero():
         """
     )
     render_highlights()
+
+
+def render_home_page():
+    render_hero()
+    section_divider()
+    render_about()
+    section_divider()
+    render_skills()
+    section_divider()
+    render_projects()
+    section_divider()
+    render_method()
+    section_divider()
+    render_experience()
+    section_divider()
+    render_contact()
 
 
 def render_highlights():
@@ -2595,7 +2652,7 @@ def main():
     selected_key = render_sidebar()
 
     section_map = {
-        "home": render_hero,
+        "home": render_home_page,
         "about": render_about,
         "skills": render_skills,
         "projects": render_projects,
@@ -2607,7 +2664,8 @@ def main():
     render_fn = section_map.get(selected_key, render_hero)
     render_fn()
 
-    section_divider()
+    if selected_key != "home":
+        section_divider()
 
     render_html(
         f"""
