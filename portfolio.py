@@ -128,7 +128,7 @@ CONTENT = {
         "skills": {
             "eyebrow": "Stack",
             "title": "Skills e Ferramentas",
-            "subtitle": "Minhas habilidades organizadas em um fluxo visual vertical, conectando análise, visualização, estatística, dados e automação.",
+            "subtitle": "",
             "note": "",
             "groups": [
                 {
