@@ -40,6 +40,13 @@ NAV_ITEMS = {
 
 SECTION_ORDER = list(NAV_ITEMS.keys())
 
+WHATSAPP_LOGO = """
+<svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+    <circle cx="16" cy="16" r="16" fill="#25D366"></circle>
+    <path fill="#ffffff" d="M23.18 8.7A9.59 9.59 0 0 0 16.33 6c-5.31 0-9.63 4.32-9.63 9.64 0 1.69.44 3.34 1.27 4.8L6.6 26l5.73-1.5a9.62 9.62 0 0 0 4.6 1.17h.01c5.31 0 9.63-4.33 9.63-9.64 0-2.57-1-4.98-2.77-6.76Zm-6.24 15.34h-.01a8 8 0 0 1-4.08-1.12l-.29-.17-3.4.89.91-3.31-.19-.3a8 8 0 0 1-1.23-4.25c0-4.42 3.59-8.01 8.01-8.01 2.14 0 4.15.83 5.67 2.35a7.96 7.96 0 0 1 2.34 5.67c0 4.41-3.59 8-8 8Zm4.39-5.99c-.24-.12-1.42-.7-1.64-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1.01-.37-1.92-1.18-.71-.63-1.19-1.4-1.33-1.64-.14-.24-.01-.37.11-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.47-.4-.41-.54-.42h-.46c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.69 2.58 4.1 3.61.57.25 1.02.4 1.37.51.58.18 1.11.15 1.53.09.47-.07 1.42-.58 1.62-1.14.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28Z"></path>
+</svg>
+"""
+
 CONTENT = {
     "pt": {
         "location": "Brasil",
@@ -347,6 +354,7 @@ CONTENT = {
             "cta_text": "Estou aberto a conexões, oportunidades e projetos em Automação, BI e Análise de Dados.",
             "items": [
                 ("✉️", "Email", "renanbritto.py@gmail.com", "mailto:renanbritto.py@gmail.com"),
+                ("💬", "WhatsApp", "Bora conversar no WhatsApp", "https://wa.me/5532991405516"),
                 ("💼", "LinkedIn", "linkedin.com/in/renan-britto-7b3728212/", "https://www.linkedin.com/in/renan-britto-7b3728212/"),
                 ("🐙", "GitHub", "github.com/Renanbritto", "https://github.com/Renanbritto"),
             ],
@@ -637,6 +645,7 @@ CONTENT = {
             "cta_text": "I am open to connections, opportunities and projects in Automation, BI and Data Analysis.",
             "items": [
                 ("✉️", "Email", "renanbritto.py@gmail.com", "mailto:renanbritto.py@gmail.com"),
+                ("💬", "WhatsApp", "(32) 99140-5516", "https://wa.me/5532991405516"),
                 ("💼", "LinkedIn", "linkedin.com/in/renan-britto-7b3728212/", "https://www.linkedin.com/in/renan-britto-7b3728212/"),
                 ("🐙", "GitHub", "github.com/Renanbritto", "https://github.com/Renanbritto"),
             ],
@@ -1444,6 +1453,21 @@ def inject_css():
 
         .contact-item:hover {
             transform: translateY(-2px);
+        }
+
+        .contact-icon {
+            width: 36px;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .contact-icon svg {
+            width: 100%;
+            height: 100%;
+            display: block;
         }
 
         .skills-shell {
@@ -3039,10 +3063,11 @@ def render_contact():
 
     with col2:
         for icon, platform, handle, link in current["items"]:
+            icon_markup = WHATSAPP_LOGO if platform == "WhatsApp" else icon
             render_html(
                 f"""
                 <a href="{link}" target="_blank" class="contact-item">
-                    <span style="font-size:1.3rem;">{icon}</span>
+                    <span class="contact-icon">{icon_markup}</span>
                     <div>
                         <div style="font-size:0.7rem; text-transform:uppercase; letter-spacing:0.12em; color:#4b8dff; font-weight:700; margin-bottom:2px;">
                             {platform}
