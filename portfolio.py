@@ -670,6 +670,7 @@ def inject_css():
             --text-1: #0c1625;
             --text-2: #5f6e84;
             --surface-light: rgba(255,255,255,0.94);
+            --header-offset: 5.25rem;
         }
 
         html, body, [class*="css"] {
@@ -711,7 +712,7 @@ def inject_css():
 
         [data-testid="stMainBlockContainer"] {
             position: relative;
-            padding-top: 2.8rem;
+            padding-top: var(--header-offset);
         }
 
         [data-testid="stMainBlockContainer"]::before {
@@ -736,6 +737,7 @@ def inject_css():
         body {
             scroll-behavior: smooth;
             scroll-snap-type: y proximity;
+            scroll-padding-top: var(--header-offset);
         }
 
         [data-testid="stAppViewContainer"],
@@ -743,13 +745,14 @@ def inject_css():
         section.main {
             scroll-snap-type: y proximity;
             scroll-behavior: smooth;
+            scroll-padding-top: var(--header-offset);
         }
 
         .section-anchor {
             display: block;
             position: relative;
-            top: -0.5rem;
-            scroll-margin-top: 1rem;
+            top: calc(var(--header-offset) * -1);
+            scroll-margin-top: var(--header-offset);
         }
 
         .st-key-page_home,
@@ -759,17 +762,17 @@ def inject_css():
         .st-key-page_method,
         .st-key-page_experience,
         .st-key-page_contact {
-            min-height: calc(100vh - 7rem);
+            min-height: calc(100vh - var(--header-offset));
             scroll-snap-align: start;
             scroll-snap-stop: always;
-            padding-top: 1.25rem;
+            padding-top: 1.75rem;
             padding-bottom: 1.25rem;
+            box-sizing: border-box;
         }
 
         .st-key-page_home {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            display: block;
+            padding-top: 0.35rem;
         }
 
         .st-key-page_about,
@@ -2082,6 +2085,10 @@ def inject_css():
         }
 
         @media (max-width: 900px) {
+            :root {
+                --header-offset: 6.75rem;
+            }
+
             [data-testid="stHeader"] {
                 background:
                     radial-gradient(circle at 18% 50%, rgba(76,141,255,0.18), transparent 24%),
@@ -2089,7 +2096,7 @@ def inject_css():
             }
 
             [data-testid="stMainBlockContainer"] {
-                padding-top: 3.2rem;
+                padding-top: var(--header-offset);
             }
 
             [data-testid="stHorizontalBlock"] div[data-testid="stRadio"] > div {
@@ -2118,9 +2125,13 @@ def inject_css():
             .st-key-page_method,
             .st-key-page_experience,
             .st-key-page_contact {
-                min-height: calc(100vh - 5.5rem);
-                padding-top: 0.8rem;
+                min-height: calc(100vh - var(--header-offset));
+                padding-top: 1rem;
                 padding-bottom: 0.8rem;
+            }
+
+            .st-key-page_home {
+                padding-top: 0.2rem;
             }
 
             .hero-wrapper {
@@ -2712,6 +2723,8 @@ def render_home_page():
     for section_key, render_fn in section_renderers:
         with st.container(key=f"page_{section_key}"):
             render_html(f'<div id="{section_key}" class="section-anchor"></div>')
+            if section_key == "home":
+                render_language_switcher()
             render_fn()
 
 
@@ -3066,7 +3079,6 @@ def render_contact():
 def main():
     init_session_state()
     inject_css()
-    render_language_switcher()
     render_sidebar()
     render_home_page()
 
