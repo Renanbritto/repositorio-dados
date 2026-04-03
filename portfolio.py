@@ -1,4 +1,7 @@
+import json
+
 import streamlit as st
+import streamlit.components.v1 as components
 
 # ─────────────────────────────────────────────
 # CONFIGURAÇÃO DA PÁGINA
@@ -34,6 +37,8 @@ NAV_ITEMS = {
     "experience": {"pt": "💼  Experiência", "en": "💼  Experience"},
     "contact": {"pt": "✉️  Contato", "en": "✉️  Contact"},
 }
+
+SECTION_ORDER = list(NAV_ITEMS.keys())
 
 CONTENT = {
     "pt": {
@@ -725,6 +730,129 @@ def inject_css():
         [data-testid="stMainBlockContainer"] > div {
             position: relative;
             z-index: 1;
+        }
+
+        html,
+        body {
+            scroll-behavior: smooth;
+            scroll-snap-type: y proximity;
+        }
+
+        [data-testid="stAppViewContainer"],
+        [data-testid="stMain"],
+        section.main {
+            scroll-snap-type: y proximity;
+            scroll-behavior: smooth;
+        }
+
+        .section-anchor {
+            display: block;
+            position: relative;
+            top: -0.5rem;
+            scroll-margin-top: 1rem;
+        }
+
+        .st-key-page_home,
+        .st-key-page_about,
+        .st-key-page_skills,
+        .st-key-page_projects,
+        .st-key-page_method,
+        .st-key-page_experience,
+        .st-key-page_contact {
+            min-height: calc(100vh - 7rem);
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+            padding-top: 1.25rem;
+            padding-bottom: 1.25rem;
+        }
+
+        .st-key-page_home {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .st-key-page_about,
+        .st-key-page_skills,
+        .st-key-page_projects,
+        .st-key-page_method,
+        .st-key-page_experience,
+        .st-key-page_contact {
+            border-top: 1px solid rgba(106,154,255,0.14);
+        }
+
+        .page-status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+            padding: 16px 18px;
+            margin-bottom: 22px;
+            border-radius: 18px;
+            background: rgba(255,255,255,0.78);
+            border: 1px solid rgba(106,154,255,0.16);
+            box-shadow:
+                0 16px 34px rgba(13, 24, 40, 0.05),
+                inset 0 1px 0 rgba(255,255,255,0.55);
+            backdrop-filter: blur(10px);
+        }
+
+        .page-status-label {
+            font-size: 0.68rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #4b8dff;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .page-status-current {
+            color: #0d1726;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .page-status-hints {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .page-status-pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-size: 0.76rem;
+            font-weight: 700;
+            color: #35598a;
+            background: rgba(89,143,255,0.08);
+            border: 1px solid rgba(106,154,255,0.16);
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0;
+            color: #E8EEF8 !important;
+            text-decoration: none !important;
+            font-size: 0.92rem;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            transition: color 0.18s ease, transform 0.18s ease;
+        }
+
+        .sidebar-link:hover {
+            color: #9dcbff !important;
+            transform: translateX(4px);
         }
 
         [data-testid="stSidebar"] {
@@ -1974,6 +2102,27 @@ def inject_css():
                 padding: 10px 14px !important;
             }
 
+            .page-status-bar {
+                padding: 14px 16px;
+                border-radius: 16px;
+            }
+
+            .page-status-current {
+                font-size: 0.94rem;
+            }
+
+            .st-key-page_home,
+            .st-key-page_about,
+            .st-key-page_skills,
+            .st-key-page_projects,
+            .st-key-page_method,
+            .st-key-page_experience,
+            .st-key-page_contact {
+                min-height: calc(100vh - 5.5rem);
+                padding-top: 0.8rem;
+                padding-bottom: 0.8rem;
+            }
+
             .hero-wrapper {
                 padding: 34px 24px;
                 border-radius: 22px;
@@ -2079,11 +2228,51 @@ def inject_css():
 # ─────────────────────────────────────────────
 # HELPERS
 # ─────────────────────────────────────────────
+def normalize_page(page):
+    if isinstance(page, list):
+        page = page[0] if page else "home"
+
+    if not isinstance(page, str):
+        return "home"
+
+    return page if page in SECTION_ORDER else "home"
+
+
+def get_query_page():
+    try:
+        raw_page = st.query_params.get("section")
+    except Exception:
+        return None
+
+    if raw_page in (None, ""):
+        return None
+
+    return normalize_page(raw_page)
+
+
+def set_current_page(page):
+    normalized_page = normalize_page(page)
+    st.session_state["selected_page"] = normalized_page
+
+    try:
+        if st.query_params.get("section") != normalized_page:
+            st.query_params["section"] = normalized_page
+    except Exception:
+        pass
+
+    return normalized_page
+
+
 def init_session_state():
     if "lang" not in st.session_state:
         st.session_state["lang"] = "pt"
+
+    query_page = get_query_page()
+
     if "selected_page" not in st.session_state:
-        st.session_state["selected_page"] = "home"
+        st.session_state["selected_page"] = query_page or "home"
+    elif query_page and st.session_state["selected_page"] != query_page:
+        st.session_state["selected_page"] = query_page
 
 
 def get_lang():
@@ -2117,6 +2306,240 @@ def render_tags(tags):
 
 def section_divider():
     st.markdown('<hr class="section-divider">', unsafe_allow_html=True)
+
+
+def render_page_status(selected_key):
+    current_index = SECTION_ORDER.index(selected_key)
+    current_label = NAV_ITEMS[selected_key][get_lang()]
+    prev_key = SECTION_ORDER[current_index - 1] if current_index > 0 else None
+    next_key = SECTION_ORDER[current_index + 1] if current_index < len(SECTION_ORDER) - 1 else None
+
+    if get_lang() == "pt":
+        title = "Navegacao automatica"
+        current_text = "Pagina atual"
+        prev_text = "Role para cima"
+        next_text = "Role para baixo"
+        edge_text = "Fim da navegacao"
+    else:
+        title = "Automatic Navigation"
+        current_text = "Current page"
+        prev_text = "Scroll up"
+        next_text = "Scroll down"
+        edge_text = "End of navigation"
+
+    prev_label = NAV_ITEMS[prev_key][get_lang()] if prev_key else edge_text
+    next_label = NAV_ITEMS[next_key][get_lang()] if next_key else edge_text
+
+    render_html(
+        f"""
+        <div class="page-status-bar">
+            <div>
+                <div class="page-status-label">{title}</div>
+                <div class="page-status-current">{current_text}: {current_label}</div>
+            </div>
+            <div class="page-status-hints">
+                <span class="page-status-pill">{prev_text}: {prev_label}</span>
+                <span class="page-status-pill">{next_text}: {next_label}</span>
+            </div>
+        </div>
+        """
+    )
+
+
+def render_scroll_navigation_script(selected_key):
+    components.html(
+        f"""
+        <script>
+        const pages = {json.dumps(SECTION_ORDER)};
+        const currentPage = {json.dumps(selected_key)};
+        const parentWindow = window.parent;
+        const storeKey = "__portfolio_scroll_nav__";
+        const edgeThreshold = 32;
+        const compactThreshold = 120;
+        const wheelThreshold = 80;
+        const touchThreshold = 70;
+
+        if (parentWindow[storeKey] && typeof parentWindow[storeKey].cleanup === "function") {{
+            parentWindow[storeKey].cleanup();
+        }}
+
+        const navigateTo = (targetPage) => {{
+            if (!targetPage) return;
+            const url = new URL(parentWindow.location.href);
+            url.searchParams.set("section", targetPage);
+            parentWindow.location.href = url.toString();
+        }};
+
+        let locked = false;
+        let wheelDelta = 0;
+        let wheelResetTimer = null;
+        let touchStartY = null;
+
+        const getMetrics = () => {{
+            const doc = parentWindow.document.documentElement;
+            const body = parentWindow.document.body;
+            const scrollingElement = parentWindow.document.scrollingElement || doc || body;
+            const scrollTop = scrollingElement ? scrollingElement.scrollTop : (parentWindow.pageYOffset || 0);
+            const viewportHeight = parentWindow.innerHeight || doc.clientHeight || 0;
+            const fullHeight = Math.max(
+                doc.scrollHeight || 0,
+                body.scrollHeight || 0,
+                doc.offsetHeight || 0,
+                body.offsetHeight || 0
+            );
+
+            return {{
+                scrollTop,
+                viewportHeight,
+                fullHeight,
+                nearTop: scrollTop <= edgeThreshold,
+                nearBottom: scrollTop + viewportHeight >= fullHeight - edgeThreshold,
+                compactPage: fullHeight <= viewportHeight + compactThreshold,
+            }};
+        }};
+
+        const isIgnoredTarget = (target) => {{
+            if (!target || typeof target.closest !== "function") return false;
+
+            return Boolean(
+                target.closest('[data-testid="stSidebar"]') ||
+                target.closest('input, textarea, select, option, button, a, [role="slider"], [contenteditable="true"]')
+            );
+        }};
+
+        const maybeNavigate = (direction) => {{
+            if (locked || !direction) return;
+
+            const currentIndex = pages.indexOf(currentPage);
+            if (currentIndex === -1) return;
+
+            const metrics = getMetrics();
+
+            if (direction > 0 && (metrics.compactPage || metrics.nearBottom) && currentIndex < pages.length - 1) {{
+                locked = true;
+                navigateTo(pages[currentIndex + 1]);
+            }}
+
+            if (direction < 0 && (metrics.compactPage || metrics.nearTop) && currentIndex > 0) {{
+                locked = true;
+                navigateTo(pages[currentIndex - 1]);
+            }}
+        }};
+
+        const wheelHandler = (event) => {{
+            if (locked || isIgnoredTarget(event.target)) return;
+
+            wheelDelta += event.deltaY;
+
+            if (wheelResetTimer) {{
+                parentWindow.clearTimeout(wheelResetTimer);
+            }}
+
+            wheelResetTimer = parentWindow.setTimeout(() => {{
+                wheelDelta = 0;
+            }}, 180);
+
+            if (Math.abs(wheelDelta) < wheelThreshold) return;
+
+            maybeNavigate(wheelDelta > 0 ? 1 : -1);
+            wheelDelta = 0;
+        }};
+
+        const touchStartHandler = (event) => {{
+            if (isIgnoredTarget(event.target)) return;
+            touchStartY = event.touches && event.touches.length ? event.touches[0].clientY : null;
+        }};
+
+        const touchEndHandler = (event) => {{
+            if (locked || touchStartY === null || isIgnoredTarget(event.target)) return;
+
+            const touch = event.changedTouches && event.changedTouches.length ? event.changedTouches[0] : null;
+            if (!touch) return;
+
+            const deltaY = touchStartY - touch.clientY;
+            touchStartY = null;
+
+            if (Math.abs(deltaY) < touchThreshold) return;
+
+            maybeNavigate(deltaY > 0 ? 1 : -1);
+        }};
+
+        const keyHandler = (event) => {{
+            if (locked || isIgnoredTarget(event.target)) return;
+
+            if (event.key === "PageDown" || event.key === "ArrowDown") {{
+                maybeNavigate(1);
+            }}
+
+            if (event.key === "PageUp" || event.key === "ArrowUp") {{
+                maybeNavigate(-1);
+            }}
+        }};
+
+        parentWindow.addEventListener("wheel", wheelHandler, {{ passive: true }});
+        parentWindow.addEventListener("touchstart", touchStartHandler, {{ passive: true }});
+        parentWindow.addEventListener("touchend", touchEndHandler, {{ passive: true }});
+        parentWindow.addEventListener("keydown", keyHandler);
+
+        parentWindow[storeKey] = {{
+            cleanup: () => {{
+                parentWindow.removeEventListener("wheel", wheelHandler);
+                parentWindow.removeEventListener("touchstart", touchStartHandler);
+                parentWindow.removeEventListener("touchend", touchEndHandler);
+                parentWindow.removeEventListener("keydown", keyHandler);
+            }}
+        }};
+
+        parentWindow.requestAnimationFrame(() => {{
+            parentWindow.scrollTo({{ top: 0, behavior: "auto" }});
+        }});
+        </script>
+        """,
+        height=0,
+        width=0,
+    )
+
+
+def render_scroll_to_section_script(selected_key):
+    target_selector = ".st-key-page_home" if selected_key == "home" else f".st-key-page_{selected_key}"
+
+    components.html(
+        f"""
+        <script>
+        const parentWindow = window.parent;
+        const selector = {json.dumps(target_selector)};
+        const storageKey = "__portfolio_last_section__";
+
+        const scrollToTarget = () => {{
+            const target = parentWindow.document.querySelector(selector);
+            if (!target) return false;
+
+            target.scrollIntoView({{ behavior: "smooth", block: "start" }});
+            parentWindow.sessionStorage.setItem(storageKey, selector);
+            return true;
+        }};
+
+        const lastTarget = parentWindow.sessionStorage.getItem(storageKey);
+
+        if (lastTarget !== selector) {{
+            let attempts = 0;
+            const maxAttempts = 30;
+
+            const tryScroll = () => {{
+                attempts += 1;
+
+                if (scrollToTarget() || attempts >= maxAttempts) return;
+
+                parentWindow.setTimeout(tryScroll, 120);
+            }};
+
+            tryScroll();
+        }}
+        </script>
+        """,
+        height=0,
+        width=0,
+    )
 
 
 def get_experience_meta(exp, idx, total):
@@ -2168,14 +2591,10 @@ def render_language_switcher():
 def render_sidebar():
     init_session_state()
     current = content()
-    nav_options = list(NAV_ITEMS.keys())
-    current_page = st.session_state.get("selected_page", "home")
-
-    if current_page not in nav_options:
-        current_page = "home"
-        st.session_state["selected_page"] = current_page
-
-    current_index = nav_options.index(current_page)
+    nav_links = "".join(
+        f'<a href="#{key}" target="_self" class="sidebar-link">{NAV_ITEMS[key][get_lang()]}</a>'
+        for key in SECTION_ORDER
+    )
 
     with st.sidebar:
         render_html(
@@ -2195,15 +2614,13 @@ def render_sidebar():
             """
         )
 
-        selected_key = st.radio(
-            "Navigation",
-            options=nav_options,
-            format_func=lambda key: NAV_ITEMS[key][get_lang()],
-            label_visibility="collapsed",
-            index=current_index,
-            key=f"selected_page_{get_lang()}",
+        render_html(
+            f"""
+            <div class="sidebar-nav">
+                {nav_links}
+            </div>
+            """
         )
-        st.session_state["selected_page"] = selected_key
 
         st.markdown("<br>", unsafe_allow_html=True)
         render_html(
@@ -2214,7 +2631,7 @@ def render_sidebar():
             """
         )
 
-    return selected_key
+    return "home"
 
 # ─────────────────────────────────────────────
 # SEÇÕES
@@ -2282,19 +2699,20 @@ def render_hero():
 
 
 def render_home_page():
-    render_hero()
-    section_divider()
-    render_about()
-    section_divider()
-    render_skills()
-    section_divider()
-    render_projects()
-    section_divider()
-    render_method()
-    section_divider()
-    render_experience()
-    section_divider()
-    render_contact()
+    section_renderers = [
+        ("home", render_hero),
+        ("about", render_about),
+        ("skills", render_skills),
+        ("projects", render_projects),
+        ("method", render_method),
+        ("experience", render_experience),
+        ("contact", render_contact),
+    ]
+
+    for section_key, render_fn in section_renderers:
+        with st.container(key=f"page_{section_key}"):
+            render_html(f'<div id="{section_key}" class="section-anchor"></div>')
+            render_fn()
 
 
 def render_highlights():
@@ -2649,23 +3067,8 @@ def main():
     init_session_state()
     inject_css()
     render_language_switcher()
-    selected_key = render_sidebar()
-
-    section_map = {
-        "home": render_home_page,
-        "about": render_about,
-        "skills": render_skills,
-        "projects": render_projects,
-        "method": render_method,
-        "experience": render_experience,
-        "contact": render_contact,
-    }
-
-    render_fn = section_map.get(selected_key, render_hero)
-    render_fn()
-
-    if selected_key != "home":
-        section_divider()
+    render_sidebar()
+    render_home_page()
 
     render_html(
         f"""

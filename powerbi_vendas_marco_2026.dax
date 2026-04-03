@@ -1,0 +1,373 @@
+-- Base DAX para a pagina "Vendas Marco 2026"
+-- Uso sugerido:
+-- 1. Crie as tabelas calculadas abaixo.
+-- 2. Crie as medidas na tabela "_Medidas".
+-- 3. Ajuste somente os itens marcados com TODO para o seu modelo real.
+--
+-- Medidas ja identificadas no PBIX e reaproveitadas aqui:
+-- [Status Promoção]
+-- [Preço Venda NL]
+-- [Preço Min Concorrente]
+-- [Margem Líquida NL]
+-- [Margem Líquida vs Concorrente]
+-- [GMV Total]
+
+
+-- =========================================================
+-- TABELAS CALCULADAS
+-- =========================================================
+
+Parametro Historico =
+DATATABLE (
+    "Metrica", STRING,
+    {
+        { "Unidades" },
+        { "Faturamento" },
+        { "Preco" }
+    }
+)
+
+
+Parametro Diario =
+DATATABLE (
+    "Metrica", STRING,
+    {
+        { "Vendas Dia" },
+        { "Unidades" },
+        { "GMV" },
+        { "Pedidos" }
+    }
+)
+
+
+Colunas Matriz Marco2026 =
+VAR Fixas =
+    DATATABLE (
+        "Ordem", INTEGER,
+        "Tipo", STRING,
+        "Rotulo", STRING,
+        "DiaMes", INTEGER,
+        {
+            { 1, "Fixa", "Promocao", BLANK () },
+            { 2, "Fixa", "Preco Venda NL", BLANK () },
+            { 3, "Fixa", "Preco Concorrente", BLANK () },
+            { 4, "Fixa", "Margem NL", BLANK () },
+            { 5, "Fixa", "Margem Concorrente", BLANK () },
+            { 6, "Fixa", "Historico Maior Venda", BLANK () }
+        }
+    )
+VAR Dias =
+    ADDCOLUMNS (
+        GENERATESERIES ( 1, 31, 1 ),
+        "Ordem", [Value] + 6,
+        "Tipo", "Dia",
+        "Rotulo", FORMAT ( [Value], "00" ),
+        "DiaMes", [Value]
+    )
+RETURN
+    SELECTCOLUMNS (
+        UNION ( Fixas, Dias ),
+        "Ordem", [Ordem],
+        "Tipo", [Tipo],
+        "Rotulo", [Rotulo],
+        "DiaMes", [DiaMes]
+    )
+
+
+-- TODO:
+-- Se CodigoItem nao for o SKU real, troque pela coluna correta.
+-- Troque [MLB] pelo nome real da coluna do anuncio/MLB.
+Dim SKU MLB =
+DISTINCT (
+    SELECTCOLUMNS (
+        'Vendas MarketPlace',
+        "SKU", 'Vendas MarketPlace'[CodigoItem],
+        "MLB", 'Vendas MarketPlace'[MLB]
+    )
+)
+
+
+-- =========================================================
+-- MEDIDAS DE APOIO / SELETORES
+-- =========================================================
+
+Metrica Historico Selecionada M26 =
+SELECTEDVALUE ( 'Parametro Historico'[Metrica], "Unidades" )
+
+
+Metrica Diario Selecionada M26 =
+SELECTEDVALUE ( 'Parametro Diario'[Metrica], "Unidades" )
+
+
+Coluna Matriz Selecionada M26 =
+SELECTEDVALUE ( 'Colunas Matriz Marco2026'[Rotulo] )
+
+
+Tipo Coluna Matriz Selecionada M26 =
+SELECTEDVALUE ( 'Colunas Matriz Marco2026'[Tipo] )
+
+
+Dia Matriz Selecionado M26 =
+SELECTEDVALUE ( 'Colunas Matriz Marco2026'[DiaMes] )
+
+
+-- =========================================================
+-- MEDIDAS DE NEGOCIO - APROVEITANDO O QUE JA EXISTE
+-- =========================================================
+
+Status Promocao M26 =
+[Status Promoção]
+
+
+Preco Venda NL Efetivo M26 =
+-- Se a medida [Preço Venda NL] ainda nao considerar promocao,
+-- substitua aqui pela logica do preco promocional.
+[Preço Venda NL]
+
+
+Preco Concorrente Mais Barato M26 =
+[Preço Min Concorrente]
+
+
+Margem NL M26 =
+[Margem Líquida NL]
+
+
+Margem Concorrente M26 =
+[Margem Líquida vs Concorrente]
+
+
+-- =========================================================
+-- MEDIDAS BASE DE VENDAS
+-- =========================================================
+
+GMV Base M26 =
+[GMV Total]
+
+
+-- TODO:
+-- Troque [Quantidade] pelo nome real da coluna de unidades vendidas.
+Unidades Vendidas Base M26 =
+SUM ( 'Vendas MarketPlace'[Quantidade] )
+
+
+-- TODO:
+-- Troque [IdPedido] pelo nome real da coluna/chave de pedido.
+Pedidos Base M26 =
+DISTINCTCOUNT ( 'Vendas MarketPlace'[IdPedido] )
+
+
+Preco Medio Venda Base M26 =
+DIVIDE ( [GMV Base M26], [Unidades Vendidas Base M26] )
+
+
+-- "Vendas Dia" ficou como alias de GMV ate a diretoria validar a definicao final.
+Vendas Base M26 =
+[GMV Base M26]
+
+
+-- =========================================================
+-- HISTORICO DA MAIOR VENDA
+-- =========================================================
+
+-- TODO:
+-- Troque 'Dim Calendario'[Data] pela sua tabela/calendario real.
+Historico Maior Venda Unidades M26 =
+MAXX (
+    ALL ( 'Dim Calendario'[Data] ),
+    CALCULATE ( [Unidades Vendidas Base M26] )
+)
+
+
+-- TODO:
+-- Troque 'Dim Calendario'[Data] pela sua tabela/calendario real.
+Historico Maior Venda Faturamento M26 =
+MAXX (
+    ALL ( 'Dim Calendario'[Data] ),
+    CALCULATE ( [GMV Base M26] )
+)
+
+
+-- TODO:
+-- Troque 'Dim Calendario'[Data] pela sua tabela/calendario real.
+Historico Maior Venda Preco M26 =
+MAXX (
+    ALL ( 'Dim Calendario'[Data] ),
+    CALCULATE ( [Preco Medio Venda Base M26] )
+)
+
+
+Historico Maior Venda Selecionado M26 =
+SWITCH (
+    [Metrica Historico Selecionada M26],
+    "Unidades", [Historico Maior Venda Unidades M26],
+    "Faturamento", [Historico Maior Venda Faturamento M26],
+    "Preco", [Historico Maior Venda Preco M26]
+)
+
+
+-- =========================================================
+-- MEDIDAS DIARIAS - MARCO 2026
+-- =========================================================
+
+-- TODO:
+-- Troque 'Dim Calendario'[Ano], [MesNumero] e [DiaMes]
+-- pelos nomes reais da sua tabela calendario.
+Unidades Dia M26 =
+VAR DiaSel = [Dia Matriz Selecionado M26]
+RETURN
+    IF (
+        NOT ISBLANK ( DiaSel ),
+        CALCULATE (
+            [Unidades Vendidas Base M26],
+            KEEPFILTERS ( 'Dim Calendario'[Ano] = 2026 ),
+            KEEPFILTERS ( 'Dim Calendario'[MesNumero] = 3 ),
+            KEEPFILTERS ( 'Dim Calendario'[DiaMes] = DiaSel )
+        )
+    )
+
+
+GMV Dia M26 =
+VAR DiaSel = [Dia Matriz Selecionado M26]
+RETURN
+    IF (
+        NOT ISBLANK ( DiaSel ),
+        CALCULATE (
+            [GMV Base M26],
+            KEEPFILTERS ( 'Dim Calendario'[Ano] = 2026 ),
+            KEEPFILTERS ( 'Dim Calendario'[MesNumero] = 3 ),
+            KEEPFILTERS ( 'Dim Calendario'[DiaMes] = DiaSel )
+        )
+    )
+
+
+Pedidos Dia M26 =
+VAR DiaSel = [Dia Matriz Selecionado M26]
+RETURN
+    IF (
+        NOT ISBLANK ( DiaSel ),
+        CALCULATE (
+            [Pedidos Base M26],
+            KEEPFILTERS ( 'Dim Calendario'[Ano] = 2026 ),
+            KEEPFILTERS ( 'Dim Calendario'[MesNumero] = 3 ),
+            KEEPFILTERS ( 'Dim Calendario'[DiaMes] = DiaSel )
+        )
+    )
+
+
+Preco Medio Dia M26 =
+VAR DiaSel = [Dia Matriz Selecionado M26]
+RETURN
+    IF (
+        NOT ISBLANK ( DiaSel ),
+        CALCULATE (
+            [Preco Medio Venda Base M26],
+            KEEPFILTERS ( 'Dim Calendario'[Ano] = 2026 ),
+            KEEPFILTERS ( 'Dim Calendario'[MesNumero] = 3 ),
+            KEEPFILTERS ( 'Dim Calendario'[DiaMes] = DiaSel )
+        )
+    )
+
+
+Vendas Dia M26 =
+[GMV Dia M26]
+
+
+Valor Diario Selecionado M26 =
+SWITCH (
+    [Metrica Diario Selecionada M26],
+    "Vendas Dia", [Vendas Dia M26],
+    "Unidades", [Unidades Dia M26],
+    "GMV", [GMV Dia M26],
+    "Pedidos", [Pedidos Dia M26]
+)
+
+
+-- =========================================================
+-- MEDIDAS FINAIS PARA MATRIZ
+-- =========================================================
+
+Valor Exibido Matriz Base M26 =
+VAR ColunaSel = [Coluna Matriz Selecionada M26]
+VAR TipoSel = [Tipo Coluna Matriz Selecionada M26]
+RETURN
+    SWITCH (
+        TRUE (),
+        ColunaSel = "Preco Venda NL", [Preco Venda NL Efetivo M26],
+        ColunaSel = "Preco Concorrente", [Preco Concorrente Mais Barato M26],
+        ColunaSel = "Margem NL", [Margem NL M26],
+        ColunaSel = "Margem Concorrente", [Margem Concorrente M26],
+        ColunaSel = "Historico Maior Venda", [Historico Maior Venda Selecionado M26],
+        TipoSel = "Dia", [Valor Diario Selecionado M26]
+    )
+
+
+Valor Exibido Matriz M26 =
+VAR ColunaSel = [Coluna Matriz Selecionada M26]
+VAR ValorBase = [Valor Exibido Matriz Base M26]
+RETURN
+    SWITCH (
+        TRUE (),
+        ColunaSel = "Promocao", [Status Promocao M26],
+        ColunaSel = "Margem NL", FORMAT ( ValorBase, "0.00%" ),
+        ColunaSel = "Margem Concorrente", FORMAT ( ValorBase, "0.00%" ),
+        ColunaSel = "Historico Maior Venda"
+            && [Metrica Historico Selecionada M26] = "Unidades", FORMAT ( ValorBase, "#,0" ),
+        ColunaSel = "Historico Maior Venda"
+            && [Metrica Historico Selecionada M26] = "Faturamento", FORMAT ( ValorBase, "#,0.00" ),
+        ColunaSel = "Historico Maior Venda"
+            && [Metrica Historico Selecionada M26] = "Preco", FORMAT ( ValorBase, "#,0.00" ),
+        [Tipo Coluna Matriz Selecionada M26] = "Dia"
+            && [Metrica Diario Selecionada M26] IN { "Unidades", "Pedidos" }, FORMAT ( ValorBase, "#,0" ),
+        FORMAT ( ValorBase, "#,0.00" )
+    )
+
+
+-- =========================================================
+-- MEDIDAS PARA O GRAFICO DE PRECO DIARIO
+-- =========================================================
+
+Preco Venda NL Diario Grafico M26 =
+CALCULATE (
+    [Preco Venda NL Efetivo M26],
+    KEEPFILTERS ( 'Dim Calendario'[Ano] = 2026 ),
+    KEEPFILTERS ( 'Dim Calendario'[MesNumero] = 3 )
+)
+
+
+Preco Concorrente Diario Grafico M26 =
+CALCULATE (
+    [Preco Concorrente Mais Barato M26],
+    KEEPFILTERS ( 'Dim Calendario'[Ano] = 2026 ),
+    KEEPFILTERS ( 'Dim Calendario'[MesNumero] = 3 )
+)
+
+
+-- =========================================================
+-- MONTAGEM DO VISUAL
+-- =========================================================
+
+-- MATRIZ
+-- Linhas:
+--   Dim SKU MLB[SKU]
+--   Dim SKU MLB[MLB]
+-- Colunas:
+--   Colunas Matriz Marco2026[Rotulo]
+-- Valores:
+--   [Valor Exibido Matriz M26]
+--
+-- SLICERS
+--   Parametro Historico[Metrica]
+--   Parametro Diario[Metrica]
+--   Produto/SKU
+--   Seller
+--
+-- ORDENACAO
+--   Ordene Colunas Matriz Marco2026[Rotulo] por Colunas Matriz Marco2026[Ordem]
+--
+-- GRAFICO DE LINHAS
+-- Eixo X:
+--   'Dim Calendario'[Data]
+-- Valores:
+--   [Preco Venda NL Diario Grafico M26]
+--   [Preco Concorrente Diario Grafico M26]
